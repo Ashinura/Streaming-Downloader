@@ -1,0 +1,67 @@
+{
+    "most_used_formats": {
+        "audio": [
+            ".mp3",
+            ".mp4",
+            ".wav",
+            ".m4a",
+            ".aac",
+            ".ogg",
+            ".wma",
+            ".aiff"
+        ],
+        "video": [
+            ".mp4",
+            ".mov",
+            ".avi",
+            ".wmv",
+            ".mkv",
+            ".flv",
+            ".webv"
+        ],
+        "short": [
+            ".mp4",
+            ".mov",
+            ".avo",
+            ".mpeg",
+            ".webm",
+            ".3gp"
+        ]
+    },
+    "youtube": {
+        "musics": {
+            "path": "./Downloaded",
+            "format": ".wav"
+        },
+        "videos": {
+            "path": "./Downloaded",
+            "format": ".mp4"
+        },
+        "shorts": {
+            "path": "./Downloaded",
+            "format": ".mp4"
+        }
+    },
+    "spotify": {
+        "song": {
+            "path": "./Downloaded",
+            "format": "mp3"
+        },
+        "playlist": {
+            "path": "./Downloaded",
+            "format": "mp3"
+        },
+        "artist": {
+            "path": "./Downloaded",
+            "format": "mp3"
+        },
+        "valid_spotdl_format": [
+            "mp3",
+            "flac",
+            "ogg",
+            "opus",
+            "m4a",
+            "wav"
+        ]
+    }
+}

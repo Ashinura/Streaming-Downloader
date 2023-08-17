@@ -1,2 +1,1 @@
-start /max 
-python StreamMenu.py
+start /max python StreamMenu.py

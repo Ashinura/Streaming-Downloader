@@ -19,4 +19,3 @@
   - Download your musics 🙃
 
   > If you encounter any problems, errors or requests, please let me know on github : https://github.com/Ashinura/Streaming-Downloader/issues
-If you encounter any problems, errors or requests, please let me know on github : https://github.com/Ashinura/Streaming-Downloader/issues

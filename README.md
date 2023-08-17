@@ -8,4 +8,4 @@ Work on python 3.11.4
 
 Spotify : 'spotdl' package uses YouTube as a source for music downloads, this means that if music is on spotify but you can't download it after trying again, your music isn't on YouTube or it can't find it.
 
-If you encounter any problems, errors or requests, please let me know on github : https://github.com/Ashinura/Streaming-Downloader
+If you encounter any problems, errors or requests, please let me know on github : https://github.com/Ashinura/Streaming-Downloader/issues

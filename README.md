@@ -18,4 +18,13 @@
   - Run 'launch.bat'
   - Download your musics 🙃
 
-  > If you encounter any problems, errors or requests, please let me know on github : https://github.com/Ashinura/Streaming-Downloader/issues
+## Manually Fix Pytube
+  
+  - Open a new cmd
+  - Type: "pip show pytube", then press enter 
+  - Look for the pytube location line then copy the path
+  - Open Streaming-Downloader/Setup folder and edit setup.bat in notepad or your IDE
+  - 
+
+
+> If you encounter any problems, errors or requests, please let me know on github : https://github.com/Ashinura/Streaming-Downloader/issues

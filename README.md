@@ -23,7 +23,7 @@
   - Open a new cmd
   - Type: "pip show pytube", then press enter 
   - Look for the pytube location line then copy the path
-  - Open Streaming-Downloader/Setup folder and edit setup.bat in notepad or your IDE
+  - Open Streaming-Downloader/Setup folder and edit setup.py in notepad or your IDE
   - Edit line 25 and 42 in v1.2.1 and set : pytube_folder = "/your/pytube/location"
   - Save and rerun setup.bat file 
 

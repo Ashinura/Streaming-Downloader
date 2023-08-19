@@ -12,7 +12,6 @@ def dl_packages():
 
     global pip_upgrade
     global result
-
     pip_upgrade = subprocess.run(["python", "-m", "pip", "install", "--upgrade", "pip"])
     result = subprocess.run(["pip", "install", "-r", os.path.join(script_dir, "requirements.txt")])
 

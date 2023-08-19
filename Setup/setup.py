@@ -10,8 +10,8 @@ script_dir = re.sub(r"\\", "/", script_dir)
 
 def dl_packages():
 
-    global result
     global pip_upgrade
+    global result
 
     pip_upgrade = subprocess.run(["python", "-m", "pip", "install", "--upgrade", "pip"])
     result = subprocess.run(["pip", "install", "-r", os.path.join(script_dir, "requirements.txt")])

@@ -21,7 +21,6 @@ def main_menu():
 
     os.system('cls')
 
-
     main_logo()
 
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]\n\n")

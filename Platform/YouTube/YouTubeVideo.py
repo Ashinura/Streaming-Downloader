@@ -1,8 +1,7 @@
 import os
 import colorama
 import rich
-from pytube import YouTube
-from pytube import Playlist
+import yt_dlp
 from .YouTubeExtras import *
 
 
@@ -75,15 +74,6 @@ def yt_video():
 
 
 
-
-def clean_filename(filename):
-    import re
-    # Remove characters that might cause issues in file names
-    cleaned_filename = re.sub(r'[<>:"/\\\|?*]', '', filename)
-    return cleaned_filename
-
-
-
 def yt_video_individually(data): 
 
     yt_video_path = data['youtube']['videos']['path']
@@ -91,30 +81,57 @@ def yt_video_individually(data):
 
     while True:
 
-        video_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Video URL : "))
-
         try:
-            yt = YouTube(video_url)
 
-            video = yt.streams.get_highest_resolution()
+            video_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Video URL : "))
 
-            if '-' in yt.title:
-                new_file = yt.title + yt_video_format
-                new_file = clean_filename(new_file)
+            check_url = {"quiet": True, 'no_warnings': True, 'simulate': True,}
+            ydl_check = yt_dlp.YoutubeDL(check_url)
+            info = ydl_check.extract_info(video_url, download=False)
+
+            if 'entries' in info:
+                choice_continue = str(input("The URL is a playlist, continue ? [y/n] : "))
+
+                if choice_continue in ["y", "yes"]:
+
+                    ydl_opts = {
+                        'format': f'bestvideo[ext={yt_video_format}]+bestaudio/best[ext={yt_video_format}]',
+                        'quiet': False,             
+                        'no_warnings': True,        
+                        'outtmpl': f"{yt_video_path}/%(title)s.%(ext)s",     
+                    }
+
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        ydl.download([video_url])
+
+                else:
+                    yt_video()
+            
             else:
-                new_file = yt.author + ' - ' + yt.title + yt_video_format
-                new_file = clean_filename(new_file)
+                ydl_opts = {
+                    'format': f'bestvideo[ext={yt_video_format}]+bestaudio/best[ext={yt_video_format}]',
+                    'quiet': False,             
+                    'no_warnings': True,        
+                    'outtmpl': f"{yt_video_path}/%(title)s.%(ext)s",     
+                }
 
-            if os.path.exists(os.path.join(yt_video_path, new_file)):
-                print(f'{colorama.Fore.LIGHTYELLOW_EX}' + new_file + ' is already downloaded in the folder')
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([video_url])
 
-            else:
-                yt.register_on_progress_callback(lambda stream, chunk, bytes_remaining: show_progress(stream, chunk, bytes_remaining, new_file))
-                out_file = video.download(output_path=yt_video_path, filename=new_file)
-                os.rename(out_file, os.path.join(yt_video_path, new_file))
+        except Exception:
+            try:
+                ydl_opts = {
+                    'format': f'ba+bv/best',
+                    'quiet': False,             
+                    'no_warnings': True,        
+                    'outtmpl': f"{yt_video_path}/%(uploader)s - %(title)s.%(ext)s",     
+                }
 
-        except Exception as e:
-            print(f"\n{colorama.Fore.LIGHTRED_EX}The video didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([video_url])
+
+            except Exception as err:
+                print(err)
 
 
 
@@ -125,38 +142,54 @@ def yt_video_playlist(data):
 
     while True:
 
-        playlist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Playlist URL : "))
-
         try:
-            playlist = Playlist(playlist_url)
-            if not playlist:
-                raise ValueError("Playlist not found or private.")
+
+            playlist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}playlist URL : "))
+
+            check_url = {"quiet": True, 'no_warnings': True, 'simulate': True,}
+            ydl_check = yt_dlp.YoutubeDL(check_url)
+            info = ydl_check.extract_info(playlist_url, download=False)
+
+            if 'entries' not in info:
+                choice_continue = str(input("The URL isn't a playlist, continue ? [y/n] : "))
+
+                if choice_continue in ["y", "yes"]:
+
+                    ydl_opts = {
+                        'format': f'bestvideo[ext={yt_video_format}]+bestaudio/best[ext={yt_video_format}]',
+                        'quiet': False,             
+                        'no_warnings': True,        
+                        'outtmpl': f"{yt_video_path}/%(title)s.%(ext)s",     
+                    }
+
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        ydl.download([playlist_url])
+
+                else:
+                    yt_video()
             
-            for video in playlist.videos:
-                try:
+            else:
+                ydl_opts = {
+                    'format': f'bestvideo[ext={yt_video_format}]+bestaudio/best[ext={yt_video_format}]',
+                    'quiet': False,             
+                    'no_warnings': True,        
+                    'outtmpl': f"{yt_video_path}/%(title)s.%(ext)s",     
+                }
 
-                    title = video.title
-                    author = video.author
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([playlist_url])
 
-                    video_stream = video.streams.get_highest_resolution()
+        except Exception:
+            try:
+                ydl_opts = {
+                    'format': f'ba+bv/best',
+                    'quiet': False,             
+                    'no_warnings': True,        
+                    'outtmpl': f"{yt_video_path}/%(uploader)s - %(title)s.%(ext)s",     
+                }
 
-                    if '-' in title:
-                        new_file = title + yt_video_format
-                        new_file = clean_filename(new_file)
-                    else:
-                        new_file = author + ' - ' + title + yt_video_format
-                        new_file = clean_filename(new_file)
-        
-                    if os.path.exists(os.path.join(yt_video_path, new_file)):
-                        print(f'{colorama.Fore.LIGHTYELLOW_EX}' + new_file + ' is already downloaded in the folder')
-        
-                    else:
-                        video.register_on_progress_callback(lambda stream, chunk, bytes_remaining: show_progress(stream, chunk, bytes_remaining, new_file))
-                        out_file = video_stream.download(output_path=yt_video_path, filename=new_file)
-                        os.rename(out_file, os.path.join(yt_video_path, new_file))
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([playlist_url])
 
-                except Exception as err:
-                    print(f"{colorama.Fore.LIGHTMAGENTA_EX}Error : {err}    ")
-
-        except Exception as err:
-            print(f"\n{colorama.Fore.LIGHTRED_EX}The playlist couldn't be accessed or is private. \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {err}")
+            except Exception as err:
+                print(err)

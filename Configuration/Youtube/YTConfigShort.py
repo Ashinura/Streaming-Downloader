@@ -133,7 +133,7 @@ def yt_config_menu_short_editformat():
     with open(dir_path, 'r') as file:
         data = json.load(file)
 
-    most_used_formats = data["most_used_formats"]["video"]
+    ytdlp_formats = data["youtube"]["valid_ytdlp_format"]
   
     yt_short_path = data['youtube']['shorts']['path']
     yt_shorts_format = data['youtube']['shorts']['format']
@@ -150,27 +150,24 @@ def yt_config_menu_short_editformat():
 
     data[platform][key] = value
 
-    with open(dir_path, 'w') as file:
-        json.dump(data, file, indent=4)
 
     if (new_format == yt_shorts_format):
         rich.print("[green]The new format was already in use[/green]")
         sleep(2)
         yt_config_menu_short()
 
-    elif (new_format in most_used_formats): 
+    elif (new_format in ytdlp_formats): 
+        with open(dir_path, 'w') as file:
+            json.dump(data, file, indent=4)
         rich.print("[green]Success[/green]")
         sleep(2)
         yt_config_menu_short()
 
-    elif (new_format not in most_used_formats):
-        rich.print("[yellow]Warning, the new format is not in the list of most frequently used formats, so note this if an error occurs later.[/yellow]")
-        rich.print(f"List : [magenta]{most_used_formats}[/magenta]")
-        sleep(8)
-        rich.print("[green]Success[/green]")
-        sleep(2)
+    elif (new_format not in ytdlp_formats):
+        rich.print("[yellow]Warning, the new format is not in the list of most frequently used formats, I will update formats later.[/yellow]")
+        rich.print(f"List : [magenta]{ytdlp_formats}[/magenta]")
+        sleep(7)
         yt_config_menu_short()
-
     else:
         rich.print("\n[red]Error[/rec]")
         sleep(3)

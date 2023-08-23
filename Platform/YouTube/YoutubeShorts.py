@@ -1,8 +1,7 @@
 import os
 import colorama
 import rich
-from pytube import YouTube
-from pytube import Playlist
+import yt_dlp
 from .YouTubeExtras import *
 
 
@@ -11,7 +10,6 @@ def yt_short():
 
     os.system('cls')
 
-    from .YouTubeExtras import logo
     import json
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -22,6 +20,8 @@ def yt_short():
 
     yt_short_path = data['youtube']['shorts']['path']
     yt_short_format = data['youtube']['shorts']['format']
+
+    print(yt_short_path)
 
 
     logo(music=False, video=True, short=False)
@@ -71,15 +71,6 @@ def yt_short():
 
 
 
-
-def clean_filename(filename):
-    import re
-    # Remove characters that might cause issues in file names
-    cleaned_filename = re.sub(r'[<>:"/\\\|?*]', '', filename)
-    return cleaned_filename
-
-
-
 def yt_short_download(data): 
 
     yt_short_path = data['youtube']['shorts']['path']
@@ -87,27 +78,30 @@ def yt_short_download(data):
 
     while True:
 
-        video_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Short URL : "))
+        short_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Short URL : "))
 
         try:
-            yt = YouTube(video_url)
+            ydl_opts = {
+                'format': f'bestvideo[ext={yt_short_format}]+bestaudio/best[ext={yt_short_format}]',
+                'quiet': False,             
+                'no_warnings': True,        
+                'outtmpl': f"{yt_short_path}/%(title)s.%(ext)s",     
+            }
 
-            video = yt.streams.get_highest_resolution()
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([short_url])
 
-            if '-' in yt.title:
-                new_file = yt.title + yt_short_format
-                new_file = clean_filename(new_file)
-            else:
-                new_file = yt.author + ' - ' + yt.title + yt_short_format
-                new_file = clean_filename(new_file)
+        except Exception:
+            try:
+                ydl_opts = {
+                    'format': f'ba+bv/best',
+                    'quiet': False,             
+                    'no_warnings': True,        
+                    'outtmpl': f"{yt_short_path}/%(uploader)s - %(title)s.%(ext)s",     
+                }
 
-            if os.path.exists(os.path.join(yt_short_path, new_file)):
-                print(f'{colorama.Fore.LIGHTYELLOW_EX}' + new_file + ' is already downloaded in the folder')
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([short_url])
 
-            else:
-                yt.register_on_progress_callback(lambda stream, chunk, bytes_remaining: show_progress(stream, chunk, bytes_remaining, new_file))
-                out_file = video.download(output_path=yt_short_path, filename=new_file)
-                os.rename(out_file, os.path.join(yt_short_path, new_file))
-
-        except Exception as err:
-            print(f"\n{colorama.Fore.LIGHTRED_EX}The video didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {err}    ")
+            except Exception as err:
+                print(err)

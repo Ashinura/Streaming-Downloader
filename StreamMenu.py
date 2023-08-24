@@ -1,5 +1,6 @@
 import colorama
 import rich
+import json
 import os
 
 
@@ -17,13 +18,32 @@ def main_logo():
 
 
 
+def check_update(requested: bool):
+
+    from Configuration.GHAutoUpdate import github_update
+    config_path = os.path.join('.', 'Configuration', 'config.json')
+
+    with open(config_path, 'r') as file:
+        data = json.load(file)
+
+    check_autoupdt = data["user"]["autoupdate"]
+
+    if check_autoupdt == "True":
+        github_update()
+
+    elif requested == True:
+        github_update()
+
+
+
+
 def main_menu(): 
 
     os.system('cls')
 
-
     main_logo()
 
+    rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Check for update[/cyan]")
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]\n\n")
 
     rich.print(
@@ -31,14 +51,13 @@ def main_menu():
         "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]\n"
     )
 
-
     choice = False
 
     while not choice:
         try:   
             option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Chose an option : "))
 
-            if option in [1, 2, 9]:
+            if option in [0, 1, 2, 9]:
                 choice = True
 
             else:
@@ -53,7 +72,10 @@ def main_menu():
                 "[white]Invalid option selected, must be int.[/white]"
             )
 
-    if option == 1:
+    if option == 0:
+        check_update(requested=True)
+
+    elif option == 1:
         from Platform.YouTube.YouTubeMenu import yt_menu
         yt_menu()
 
@@ -68,4 +90,5 @@ def main_menu():
 
 
 if __name__ == "__main__":
+    check_update(requested=False)
     main_menu()

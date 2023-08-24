@@ -1,4 +1,8 @@
 {
+    "user": {
+        "autoupdate": "False",
+        "quietytdl": "False"
+    },
     "youtube": {
         "musics": {
             "path": "./Downloaded",

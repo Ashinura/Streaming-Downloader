@@ -1,6 +1,6 @@
+Current Version: 1.2.2
+
 <!--- mdformat-toc start --slug=github --->
-
-
 <div align="center">
 
 # Streaming-Downloader

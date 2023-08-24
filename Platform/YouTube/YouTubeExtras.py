@@ -8,6 +8,7 @@ def logo(music: bool, video: bool, short: bool):
     print(" \ \ / ___ _  _| |_ _  _| |__ ___  ")      # Category : Featured FIGlet fonts 
     print("  \ V / _ | || |  _| || | '_ / -_) ")      # Font : Small
     print("   |_|\___/\_,_|\__|\_,_|_.__\___| ")      # Print : Youtube     
+    print("                                   ")
 
     if (music and not video and not short): 
         print("\nMusic                                                                            ")

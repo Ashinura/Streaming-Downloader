@@ -24,8 +24,9 @@ def installation_menu():
     print(
         "[0]", "Check for updates    |   https://github.com/Ashinura/Streaming-Downloader/releases\n\n"
         "[1]", "Full Installation    |   Recommended for first-time installation, does everything listed below.\n\n"
-        "[4]", "Install all packages |   Download all packages required to run Streaming-Downloader\n"
+        "[4]", "Install all packages |   Download all packages required to run Streaming-Downloader.\n"
         "[5]", "Install FFmpeg       |   Quality of youtube videos downloaded was increased but you must install FFmpeg now.\n"
+        "[6]", "Install GIT          |   Necessary for enable auto-check-update in user configuration.\n"
     )
 
     choice = False
@@ -59,6 +60,7 @@ def installation_menu():
 
     elif option == 5:
         install_ffmpeg()
+
 
 
 def dl_packages():
@@ -145,10 +147,40 @@ def install_ffmpeg():
 
 
 
+def install_git():
+    try:
+        # Check if Git is already installed by trying to run it
+        subprocess.check_output(["git", "--version"])
+        print("Git is already installed.")
+    except FileNotFoundError:
+        try:
+            # Download the Git installer for Windows
+            git_installer_url = "https://github.com/git-for-windows/git/releases/latest/download/Git-2.33.0-64-bit.exe"
+            git_installer_path = "GitInstaller.exe"
+            subprocess.run(["curl", "-Lo", git_installer_path, git_installer_url], shell=True, check=True)
+
+            # Run the Git installer in silent mode
+            subprocess.run([git_installer_path, "/SILENT"], shell=True, check=True)
+
+            # Add the Git installation path to PATH
+            git_install_dir = os.path.join(os.environ["ProgramFiles(x86)"], "Git", "cmd")
+            os.environ["PATH"] += os.pathsep + git_install_dir
+
+            print("Git has been successfully installed.")
+
+        except subprocess.CalledProcessError as err:
+            print("Error while installing Git:", err)
+        finally:
+            # Remove the installer after use
+            if os.path.exists(git_installer_path):
+                os.remove(git_installer_path)
+
+
+
 def installation():
 
     dl_packages()
-    time.sleep(2)
+    install_git()
     install_ffmpeg()
 
     os.system('cls')

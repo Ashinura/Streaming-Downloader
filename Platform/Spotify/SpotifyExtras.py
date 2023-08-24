@@ -6,5 +6,6 @@ def logo():
     print(" / __|_ __  ___| |_(_)/ _|_  _  ")      # Category : Featured FIGlet fonts 
     print(" \__ \ '_ \/ _ \  _| |  _| || | ")      # Font : Small
     print(" |___/ .__/\___/\__|_|_|  \_, | ")      # Print : Spotify 
-    print("     |_|                  |__/  ")     
+    print("     |_|                  |__/  ")   
+    print("                                ")  
     print(colorama.Fore.RESET)

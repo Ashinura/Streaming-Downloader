@@ -10,10 +10,10 @@ def config_menu():
 
     from .ConfigExtras import logo
 
-
     logo()
 
-    rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]\n\n")
+    rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
+    rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit user configuration[/cyan]\n\n")
 
     rich.print(
         "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]YouTube[/white]\n"
@@ -27,7 +27,7 @@ def config_menu():
         try:   
             option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Select a platform : "))
 
-            if option in [0, 1, 2]:
+            if option in [0, 1, 2, 9]:
                 choice = True
 
             else:
@@ -53,3 +53,7 @@ def config_menu():
     elif option == 2:
         from .Spotify.SpotifyConfig import sp_config_menu
         sp_config_menu()
+
+    elif option == 9:
+        from Configuration.ConfigExtras import user_config
+        user_config()

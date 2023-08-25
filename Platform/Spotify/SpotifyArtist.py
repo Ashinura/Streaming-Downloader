@@ -1,7 +1,9 @@
 import colorama
 import subprocess
-import os 
 import json
+import rich
+import os 
+
 
 def sp_artist(): 
 
@@ -18,8 +20,12 @@ def sp_artist():
 
         artist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Artist URL: "))
 
-        try:
-            subprocess.run(["spotdl", artist_url, "--output", sp_artist_path, "--format", sp_artist_format])
+        if artist_url[:5] == "https": 
+            try:
+                subprocess.run(["spotdl", artist_url, "--output", sp_artist_path, "--format", sp_artist_format])
 
-        except Exception as e:
-            print(f"\n{colorama.Fore.LIGHTRED_EX}The artist didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
+            except Exception as e:
+                print(f"\n{colorama.Fore.LIGHTRED_EX}The song didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
+
+        else:
+            rich.print('[red]Invalid URL.[/red]')

@@ -16,7 +16,7 @@ def sp_artist():
 
     while True:
 
-        artist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}artist URL: "))
+        artist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Artist URL: "))
 
         try:
             subprocess.run(["spotdl", artist_url, "--output", sp_artist_path, "--format", sp_artist_format])

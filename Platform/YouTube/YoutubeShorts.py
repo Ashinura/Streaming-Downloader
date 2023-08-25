@@ -26,8 +26,8 @@ def yt_short():
 
     logo(music=False, video=True, short=False)
 
-    print(f"{colorama.Fore.LIGHTRED_EX}Path : {colorama.Fore.RED}{os.path.abspath(yt_short_path)}")
-    print(f"{colorama.Fore.LIGHTRED_EX}Format : {colorama.Fore.RED}{yt_short_format}\n")
+    print(f"{colorama.Fore.RED}Path : {colorama.Fore.LIGHTRED_EX}{os.path.abspath(yt_short_path)}")
+    print(f"{colorama.Fore.RED}Format : {colorama.Fore.LIGHTRED_EX}{yt_short_format}\n")
 
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]")
@@ -75,27 +75,27 @@ def yt_short_download(data):
 
     yt_short_path = data['youtube']['shorts']['path']
     yt_short_format = data['youtube']['shorts']['format']
+    quietytdlp = data["user"]["quietytdlp"]
 
     while True:
 
         short_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Short URL : "))
+        if short_url[:5] == "https": 
 
-        try:
-            ydl_opts = {
-                'format': f'bestvideo[ext={yt_short_format}]+bestaudio/best[ext={yt_short_format}]',
-                'quiet': False,             
-                'no_warnings': True,        
-                'outtmpl': f"{yt_short_path}/%(title)s.%(ext)s",     
-            }
-
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([short_url])
-
-        except Exception:
             try:
                 ydl_opts = {
-                    'format': f'ba+bv/best',
-                    'quiet': False,             
+                    'format': f'bestvideo[ext={yt_short_format}]+bestaudio/best[ext={yt_short_format}]',
+                    'quiet': eval(quietytdlp),             
+                    'no_warnings': True,        
+                    'outtmpl': f"{yt_short_path}/%(uploader)s - %(title)s.%(ext)s",     
+                }
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([short_url])
+
+            except yt_dlp.DownloadError:
+                ydl_opts = {
+                    'format': f'bv+ba/best',
+                    'quiet': eval(quietytdlp),             
                     'no_warnings': True,        
                     'outtmpl': f"{yt_short_path}/%(uploader)s - %(title)s.%(ext)s",     
                 }
@@ -103,5 +103,9 @@ def yt_short_download(data):
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     ydl.download([short_url])
 
-            except Exception as err:
-                print(err)
+                print('') # Space
+                if yt_short_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
+                print('The download was made with the best parameters for the URL')
+
+        else:
+            rich.print('[red]Invalid URL.[/red]')

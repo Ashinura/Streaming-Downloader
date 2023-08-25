@@ -127,16 +127,18 @@ def yt_config_menu_video_editformat():
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     dir_path = os.path.join(script_dir, '..', 'config.json')
-            
-    new_format = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}New format : "))
 
     with open(dir_path, 'r') as file:
         data = json.load(file)
 
-    ytdlp_formats = data["youtube"]["valid_ytdlp_format"]
+    ytdlp_formats = data["youtube"]["youtube_valid_format"]
   
     yt_videos_path = data['youtube']['videos']['path']
     yt_videos_format = data['youtube']['videos']['format']
+
+
+    print("\nFormats available :", ytdlp_formats)
+    new_format = str(input(f"{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}New format : "))
 
     platform = 'youtube'
     key = 'videos'
@@ -164,9 +166,9 @@ def yt_config_menu_video_editformat():
         yt_config_menu_video()
 
     elif (new_format not in ytdlp_formats):
-        rich.print("[yellow]Warning, the new format is not in the list of most frequently used formats, I will update formats later.[/yellow]")
+        rich.print("[yellow]This format cannot be use, see the list below.[/yellow]")
         rich.print(f"List : [magenta]{ytdlp_formats}[/magenta]")
-        sleep(7)
+        sleep(5)
         yt_config_menu_video()
 
     else:

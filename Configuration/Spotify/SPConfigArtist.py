@@ -127,17 +127,18 @@ def sp_config_menu_artist_editformat():
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     dir_path = os.path.join(script_dir, '..', 'config.json')
-            
-    new_format = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}New format : "))
 
     with open(dir_path, 'r') as file:
         data = json.load(file)
-
 
     valid_spotdl_format = data["spotify"]["valid_spotdl_format"]
   
     sp_artist_path = data['spotify']['artist']['path']
     sp_artist_format = data['spotify']['artist']['format']
+
+
+    print("\nFormats available :", valid_spotdl_format)           
+    new_format = str(input(f"{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}New format : "))
 
     platform = 'spotify'
     key = 'artist'

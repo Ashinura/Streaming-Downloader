@@ -24,8 +24,8 @@ def yt_music():
 
     logo(music=True, video=False, short=False)
 
-    print(f"{colorama.Fore.LIGHTRED_EX}Path : {colorama.Fore.RED}{os.path.abspath(yt_music_path)}")
-    print(f"{colorama.Fore.LIGHTRED_EX}Format : {colorama.Fore.RED}{yt_music_format}\n")
+    print(f"{colorama.Fore.RED}Path : {colorama.Fore.LIGHTRED_EX}{os.path.abspath(yt_music_path)}")
+    print(f"{colorama.Fore.RED}Format : {colorama.Fore.LIGHTRED_EX}{yt_music_format}\n")
 
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]")
@@ -77,25 +77,56 @@ def yt_music_individually(data):
 
     yt_music_path = data['youtube']['musics']['path']
     yt_music_format = data['youtube']['musics']['format']
+    quietytdlp = data["user"]["quietytdlp"]
 
     while True:
 
-        try:
-
-            music_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}music URL : "))
+        music_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Music URL : "))
+        if music_url[:5] == "https": 
 
             check_url = {"quiet": True, 'no_warnings': True, 'simulate': True,}
             ydl_check = yt_dlp.YoutubeDL(check_url)
             info = ydl_check.extract_info(music_url, download=False)
 
             if 'entries' in info:
+
                 choice_continue = str(input("The URL is a playlist, continue ? [y/n] : "))
 
-                if choice_continue in ["y", "yes"]:
+                if choice_continue in ["y", "yes"] and yt_music_format != "best":
+                    try:
+                        ydl_opts = {
+                            'format': f'bestaudio[ext={yt_music_format}]',
+                            'quiet': eval(quietytdlp),             
+                            'no_warnings': True,        
+                            'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
+                        }
 
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([music_url])
+
+                    except yt_dlp.DownloadError:
+                        ydl_opts = {
+                            'format': f'bestaudio',
+                            'quiet': eval(quietytdlp),             
+                            'no_warnings': True,        
+                            'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
+                        }
+
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([music_url])
+
+                        print('') # Space
+                        if yt_music_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
+                        print('The download was made with the best parameters for the URL')
+
+                else:
+                    yt_music()
+
+            else:
+                try:
                     ydl_opts = {
                         'format': f'bestaudio[ext={yt_music_format}]',
-                        'quiet': False,             
+                        'quiet': eval(quietytdlp),             
                         'no_warnings': True,        
                         'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
                     }
@@ -103,34 +134,24 @@ def yt_music_individually(data):
                     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                         ydl.download([music_url])
 
-                else:
-                    yt_music()
-            
-            else:
-                ydl_opts = {
-                    'format': f'bestaudio[ext={yt_music_format}]',
-                    'quiet': False,             
-                    'no_warnings': True,        
-                    'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
-                }
+                except yt_dlp.DownloadError:
+                    ydl_opts = {
+                        'format': f'bestaudio',
+                        'quiet': eval(quietytdlp),             
+                        'no_warnings': True,        
+                        'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
+                    }
 
-                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([music_url])
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        ydl.download([music_url])
 
-        except Exception:
-            try:
-                ydl_opts = {
-                    'format': f'ba',
-                    'quiet': False,             
-                    'no_warnings': True,        
-                    'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
-                }
+                    print('') # Space
+                    if yt_music_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
+                    print('The download was made with the best parameters for the URL')
 
-                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([music_url])
+        else:
+            rich.print('[red]Invalid URL.[/red]')
 
-            except Exception as err:
-                print(err)
 
 
 
@@ -138,25 +159,57 @@ def yt_music_playlist(data):
 
     yt_music_path = data['youtube']['musics']['path']
     yt_music_format = data['youtube']['musics']['format']
+    quietytdlp = data["user"]["quietytdlp"]
 
     while True:
 
-        try:
-
-            playlist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}playlist URL : "))
+        playlist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}playlist URL : "))
+        if playlist_url[:5] == "https":
 
             check_url = {"quiet": True, 'no_warnings': True, 'simulate': True,}
             ydl_check = yt_dlp.YoutubeDL(check_url)
             info = ydl_check.extract_info(playlist_url, download=False)
 
             if 'entries' not in info:
+
                 choice_continue = str(input("The URL isn't a playlist, continue ? [y/n] : "))
 
-                if choice_continue in ["y", "yes"]:
+                if choice_continue in ["y", "yes"] and yt_music_format != "best":
+                    try:
+                        ydl_opts = {
+                            'format': f'bestaudio[ext={yt_music_format}]',
+                            'quiet': eval(quietytdlp),             
+                            'no_warnings': True,        
+                            'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
+                        }
 
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([playlist_url])
+
+                    except yt_dlp.DownloadError:
+                        ydl_opts = {
+                            'format': f'bestaudio',
+                            'quiet': eval(quietytdlp),             
+                            'no_warnings': True,        
+                            'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
+                        }
+
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([playlist_url])
+
+                        print('') # Space
+                        if yt_music_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
+                        print('The download was made with the best parameters for the URL')
+
+
+                else:
+                    yt_music()
+
+            else:
+                try:
                     ydl_opts = {
                         'format': f'bestaudio[ext={yt_music_format}]',
-                        'quiet': False,             
+                        'quiet': eval(quietytdlp),             
                         'no_warnings': True,        
                         'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
                     }
@@ -164,31 +217,20 @@ def yt_music_playlist(data):
                     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                         ydl.download([playlist_url])
 
-                else:
-                    yt_music()
-            
-            else:
-                ydl_opts = {
-                    'format': f'bestaudio[ext={yt_music_format}]',
-                    'quiet': False,             
-                    'no_warnings': True,        
-                    'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
-                }
+                except yt_dlp.DownloadError:
+                    ydl_opts = {
+                        'format': f'bestaudio',
+                        'quiet': eval(quietytdlp),             
+                        'no_warnings': True,        
+                        'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
+                    }
 
-                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([playlist_url])
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        ydl.download([playlist_url])
 
-        except Exception:
-            try:
-                ydl_opts = {
-                    'format': f'ba',
-                    'quiet': False,             
-                    'no_warnings': True,        
-                    'outtmpl': f"{yt_music_path}/%(uploader)s - %(title)s.%(ext)s",     
-                }
+                    print('') # Space
+                    if yt_music_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
+                    print('The download was made with the best parameters for the URL')
 
-                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([playlist_url])
-
-            except Exception as err:
-                print(err)
+        else: 
+            rich.print('[red]Invalid URL.[/red]')

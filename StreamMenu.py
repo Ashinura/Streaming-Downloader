@@ -36,7 +36,6 @@ def check_update(requested: bool):
 
 
 
-
 def main_menu(): 
 
     os.system('cls')

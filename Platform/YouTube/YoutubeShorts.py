@@ -41,7 +41,7 @@ def yt_short():
 
     while not choice:
         try:   
-            option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Chose an option : "))
+            option = eval(str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Chose an option : ")))
 
             if option in [0, 1, 9]:
                 choice = True 
@@ -76,6 +76,7 @@ def yt_short_download(data):
     yt_short_path = data['youtube']['shorts']['path']
     yt_short_format = data['youtube']['shorts']['format']
     quietytdlp = data["user"]["quietytdlp"]
+    
 
     while True:
 

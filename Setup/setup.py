@@ -180,8 +180,8 @@ def install_git():
 def installation():
 
     dl_packages()
-    install_git()
     install_ffmpeg()
+    install_git()
 
     os.system('cls')
     installation_logo()

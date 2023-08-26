@@ -1,6 +1,6 @@
 {
     "user": {
-        "autoupdate": "False",
+        "autoupdate": "True",
         "quietytdlp": "False"
     },
     "youtube": {

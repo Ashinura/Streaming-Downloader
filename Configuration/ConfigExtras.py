@@ -48,17 +48,17 @@ def user_config():
         data = json.load(file)
 
     user_autoupdate = data["user"]["autoupdate"]
-    user_quietytdl = data["user"]["quietytdl"]
+    user_quietytdlp = data["user"]["quietytdlp"]
 
     if user_autoupdate == "True":
         autoupdate = "[green]True[/green]"
     else: 
         autoupdate = "[red]False[/red]"
 
-    if user_quietytdl == "True":
-        quietytdl = "[green]True[/green]"
+    if user_quietytdlp == "True":
+        quietytdlp = "[green]True[/green]"
     else: 
-        quietytdl = "[red]False[/red]"
+        quietytdlp = "[red]False[/red]"
 
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Back to the config menu[/cyan]\n\n")
@@ -66,7 +66,7 @@ def user_config():
     rich.print(
         "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "Auto-Check-Update :", autoupdate,"\n"
         "[bright_black]([/bright_black]" + "[bold white]![/bold white]" + "[bright_black])[/bright_black]", "Enable/Disable Auto-Check-Update when you launch Streaming-Downloader.\n\n"
-        "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "Quiet YT-DLP :", quietytdl,"\n"
+        "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "Quiet YT-DLP :", quietytdlp,"\n"
         "[bright_black]([/bright_black]" + "[bold white]![/bold white]" + "[bright_black])[/bright_black]", "If enabled, does not show any output on youtube downloading\n"
     )
 
@@ -119,7 +119,7 @@ def user_config_ghautoupdt():
         with open(dir_path, 'r') as file:
             data = json.load(file)
 
-        quietytdl_o = data["user"]["quietytdl"]
+        quietytdlp_o = data["user"]["quietytdlp"]
         ghautoupdt_o = data["user"]["autoupdate"]
 
         if ghautoupdt_o == "True":
@@ -129,7 +129,7 @@ def user_config_ghautoupdt():
             ghautoupdt_n = "True"
     
         param = 'user'
-        value = {"autoupdate": ghautoupdt_n, "quietytdl": quietytdl_o}
+        value = {"autoupdate": ghautoupdt_n, "quietytdlp": quietytdlp_o}
 
         with open(dir_path, 'r') as file:
             data = json.load(file)
@@ -156,18 +156,18 @@ def user_config_quietytdl():
     with open(dir_path, 'r') as file:
         data = json.load(file)
 
-    quietytdl_o = data["user"]["quietytdl"]
+    quietytdlp_o = data["user"]["quietytdlp"]
     ghautoupdt_o = data["user"]["autoupdate"]
 
-    if quietytdl_o == "True":
-        quietytdl_n = "False"
+    if quietytdlp_o == "True":
+        quietytdlp_n = "False"
 
-    elif quietytdl_o == "False":
-        quietytdl_n = "True"
+    elif quietytdlp_o == "False":
+        quietytdlp_n = "True"
   
 
     param = 'user'
-    value = {"autoupdate": ghautoupdt_o, "quietytdl": quietytdl_n}
+    value = {"autoupdate": ghautoupdt_o, "quietytdlp": quietytdlp_n}
     
     with open(dir_path, 'r') as file:
         data = json.load(file)

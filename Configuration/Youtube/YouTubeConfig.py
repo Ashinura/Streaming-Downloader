@@ -59,9 +59,9 @@ def yt_config():
 def yt_config_menu():
 
     os.system('cls')
+    logo()
         
     import json
-    from ..ConfigExtras import logo
     
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -77,15 +77,13 @@ def yt_config_menu():
     yt_shorts_format = data['youtube']['shorts']['format']
 
 
-    logo()
-
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Back to the config menu[/cyan]\n\n")
 
     rich.print( "┌-----------------------------------------------------------------------------------------------------------┐")
     rich.print( "|                                                  YouTube                                                  |")
     rich.print( "├-----------------------------------------------------------------------------------------------------------┤\n")
-    rich.print("    [bright_black]([/bright_black]" + "[bold white]![/bold white]" + "[bright_black])[/bright_black]", "Note that the best video quality (8k 60fps) is generated only with the 'webm' format for the moment.\n")
+    rich.print("    [bright_black]([/bright_black]" + "[bold white]![/bold white]" + "[bright_black])[/bright_black]", "Note that the best video quality (8k 60fps) is generated only with the 'best' or 'webm' format.\n")
     rich.print("    [yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", f"Edit - Musics | Path: [green]{yt_music_path}[/green] - Format : [green]{yt_music_format}[/green]")
     rich.print("    [yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", f"Edit - Videos | Path: [green]{yt_videos_path}[/green] - Format : [green]{yt_videos_format}[/green]")
     rich.print("    [yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", f"Edit - Shorts | Path: [green]{yt_shorts_path}[/green] - Format : [green]{yt_shorts_format}[/green]\n")

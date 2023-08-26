@@ -1,7 +1,8 @@
 import colorama
 import subprocess
-import os 
 import json
+import rich 
+import os 
 
 def sp_playlist(): 
 
@@ -18,8 +19,12 @@ def sp_playlist():
 
         playlist_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Playlist URL: "))
 
-        try:
-            subprocess.run(["spotdl", playlist_url, "--output", sp_playlist_path, "--format", sp_playlist_format])
+        if playlist_url[:5] == "https": 
+            try:
+                subprocess.run(["spotdl", playlist_url, "--output", sp_playlist_path, "--format", sp_playlist_format])
 
-        except Exception as e:
-            print(f"\n{colorama.Fore.LIGHTRED_EX}The playlist didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
+            except Exception as e:
+                print(f"\n{colorama.Fore.LIGHTRED_EX}The song didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
+
+        else:
+            rich.print('[red]Invalid URL.[/red]')

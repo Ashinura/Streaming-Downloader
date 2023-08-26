@@ -1,25 +1,25 @@
 {
     "user": {
-        "autoupdate": "False",
-        "quietytdl": "False"
+        "autoupdate": "True",
+        "quietytdlp": "False"
     },
     "youtube": {
         "musics": {
             "path": "./Downloaded",
-            "format": "webm"
+            "format": "best"
         },
         "videos": {
             "path": "./Downloaded",
-            "format": "webm"
+            "format": "best"
         },
         "shorts": {
             "path": "./Downloaded",
-            "format": "webm"
+            "format": "best"
         },
-        "valid_ytdlp_format": [
+        "youtube_valid_format": [
+            "best",
             "webm",
-            "mp4",
-            "m4a"
+            "mp4"
         ]
     },
     "spotify": {

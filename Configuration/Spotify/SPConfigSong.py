@@ -125,9 +125,7 @@ def sp_config_menu_song_editformat():
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     dir_path = os.path.join(script_dir, '..', 'config.json')
-            
-    new_format = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}New format : "))
-
+    
     with open(dir_path, 'r') as file:
         data = json.load(file)
 
@@ -135,6 +133,10 @@ def sp_config_menu_song_editformat():
   
     sp_song_path = data['spotify']['song']['path']
     sp_song_format = data['spotify']['song']['format']
+
+
+    print("\nFormats available :", valid_spotdl_format) 
+    new_format = str(input(f"{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}New format : "))
 
     platform = 'spotify'
     key = 'song'

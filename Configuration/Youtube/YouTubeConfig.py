@@ -5,57 +5,6 @@ from time import sleep
 from ..ConfigExtras import *
 
 
-
-def yt_config():
-
-    os.system('cls')
-
-
-    logo()
-
-    rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
-    rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Back to the config menu[/cyan]\n\n")
-    
-
-    choice = False
-
-    while not choice:
-        try:   
-            option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Select a platform : "))
-
-            if option in [0, 1, 2, 9]:
-                choice = True
-
-            else:
-                rich.print(
-                    "[red][[/red]" + "[bold white]![/bold white]" + "[red]][/red]",
-                    "[white]Invalid option selected, doesn't exist yet.[/white]"
-                )
-
-        except ValueError:
-            rich.print(
-                "[red][[/red]" + "[bold white]![/bold white]" + "[red]][/red]",
-                "[white]Invalid option selected, must be int.[/white]"
-            )
-
-    if option == 0: 
-        from StreamMenu import main_menu
-        main_menu()
-
-    elif option == 1:
-        yt_config_menu()
-
-    elif option == 2:
-        print('')
-
-    elif option == 9: 
-        from Configuration.ConfigMenu import config_menu
-        config_menu()
-
-
-
-
-
 def yt_config_menu():
 
     os.system('cls')

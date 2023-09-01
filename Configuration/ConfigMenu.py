@@ -3,7 +3,6 @@ import os
 import rich
 
 
-
 def config_menu():
 
     os.system('cls')
@@ -18,6 +17,7 @@ def config_menu():
     rich.print(
         "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]YouTube[/white]\n"
         "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]\n"
+        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]SoundCloud[/white]\n"
     )
 
 
@@ -27,7 +27,7 @@ def config_menu():
         try:   
             option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Select a platform : "))
 
-            if option in [0, 1, 2, 9]:
+            if option in [0, 1, 2, 3, 9]:
                 choice = True
 
             else:
@@ -53,6 +53,10 @@ def config_menu():
     elif option == 2:
         from .Spotify.SpotifyConfig import sp_config_menu
         sp_config_menu()
+
+    elif option == 3:
+        from .Soundcloud.SoundCloudConfig import sc_config_menu
+        sc_config_menu()
 
     elif option == 9:
         from Configuration.ConfigExtras import user_config

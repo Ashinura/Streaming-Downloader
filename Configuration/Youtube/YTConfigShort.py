@@ -152,7 +152,6 @@ def yt_config_menu_short_editformat():
 
     data[platform][key] = value
 
-
     if (new_format == yt_shorts_format):
         rich.print("[green]The new format was already in use[/green]")
         sleep(2)

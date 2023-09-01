@@ -150,7 +150,6 @@ def yt_config_menu_music_editformat():
 
     data[platform][key] = value
 
-
     if (new_format == yt_musics_format):
         rich.print("[green]The new format was already in use[/green]")
         sleep(2)

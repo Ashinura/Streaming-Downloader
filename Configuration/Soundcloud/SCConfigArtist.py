@@ -6,7 +6,7 @@ from ..ConfigExtras import logo
 
 
 
-def sp_config_menu_song():
+def sc_config_menu_artist():
         
     os.system('cls')
     
@@ -15,8 +15,8 @@ def sp_config_menu_song():
     with open(os.path.join(dir_path, '..', 'config.json'), 'r') as file: 
         data = json.load(file)
 
-    sp_song_path = data['spotify']['song']['path']
-    sp_song_format = data['spotify']['song']['format']
+    sc_artist_path = data['soundcloud']['artist']['path']
+    sc_artist_format = data['soundcloud']['artist']['format']
 
 
     logo()
@@ -25,11 +25,11 @@ def sp_config_menu_song():
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Back to the config menu[/cyan]\n")
 
     rich.print( "┌-----------------------------------------------------------------------------------------------------------┐")
-    rich.print( "|                                           Spotify - Song                                                 |")
+    rich.print( "|                                           SoundCloud - Artist                                                 |")
     rich.print( "├-----------------------------------------------------------------------------------------------------------┤\n")
     rich.print("    [yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", f"Edit - Path & Format\n")
-    rich.print("    [yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", f"Edit - Path: [green]{sp_song_path}[/green]")
-    rich.print("    [yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", f"Edit - Format : [green]{sp_song_format}[/green]")
+    rich.print("    [yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", f"Edit - Path: [green]{sc_artist_path}[/green]")
+    rich.print("    [yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", f"Edit - Format : [green]{sc_artist_format}[/green]")
     rich.print("\n└----------------------------------------------------------------------------------------------------------┘\n")
 
 
@@ -59,13 +59,13 @@ def sp_config_menu_song():
         main_menu()
 
     elif option == 1:
-        sp_config_menu_song_editpath(andformat=True)
+        sc_config_menu_artist_editpath(andformat=True)
 
     elif option == 2:
-        sp_config_menu_song_editpath(andformat=False)
+        sc_config_menu_artist_editpath(andformat=False)
 
     elif option == 3:
-        sp_config_menu_song_editformat()
+        sc_config_menu_artist_editformat()
 
     elif option == 9: 
         from Configuration.ConfigMenu import config_menu
@@ -73,7 +73,9 @@ def sp_config_menu_song():
 
 
 
-def sp_config_menu_song_editpath(andformat):
+
+
+def sc_config_menu_artist_editpath(andformat):
 
     from time import sleep
     import re
@@ -87,13 +89,13 @@ def sp_config_menu_song_editpath(andformat):
     with open(dir_path, 'r') as file:
         data = json.load(file)
   
-    sp_song_format = data['spotify']['song']['format']
+    sc_artist_format = data['soundcloud']['artist']['format']
 
-    platform = 'spotify'
-    key = 'song'
+    platform = 'soundcloud'
+    key = 'artist'
     value = {
         'path': new_path,
-        'format': sp_song_format
+        'format': sc_artist_format
     }
     
     data[platform][key] = value
@@ -101,47 +103,47 @@ def sp_config_menu_song_editpath(andformat):
     with open(dir_path, 'w') as file:
         json.dump(data, file, indent=4)
 
-    sp_song_path = data['spotify']['song']['path']
+    sc_artist_path = data['soundcloud']['artist']['path']
     
-    if (sp_song_path == new_path): 
+    if (sc_artist_path == new_path): 
         rich.print("[green]Success[/green]")
         if (andformat == True):
             sleep(1)
-            sp_config_menu_song_editformat()
+            sc_config_menu_artist_editformat()
         else:
             sleep(2)
-            sp_config_menu_song()
+            sc_config_menu_artist()
 
     else:
         rich.print("\n[red]Error[/red]")
         sleep(3)
-        sp_config_menu_song()
+        sc_config_menu_artist()
 
 
 
-def sp_config_menu_song_editformat():
+def sc_config_menu_artist_editformat():
             
     from time import sleep
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     dir_path = os.path.join(script_dir, '..', 'config.json')
-    
+
     with open(dir_path, 'r') as file:
         data = json.load(file)
 
-    valid_spotdl_format = data["spotify"]["valid_spotdl_format"]
+    valid_soundcloud_format = data["soundcloud"]["valid_soundcloud_format"]
   
-    sp_song_path = data['spotify']['song']['path']
-    sp_song_format = data['spotify']['song']['format']
+    sc_artist_path = data['soundcloud']['artist']['path']
+    sc_artist_format = data['soundcloud']['artist']['format']
 
 
-    print("\nFormats available :", valid_spotdl_format) 
+    print("\nFormats available :", valid_soundcloud_format)           
     new_format = str(input(f"{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}New format : "))
 
-    platform = 'spotify'
-    key = 'song'
+    platform = 'soundcloud'
+    key = 'artist'
     value = {
-        'path': sp_song_path,
+        'path': sc_artist_path,
         'format': new_format
     }
     
@@ -150,27 +152,28 @@ def sp_config_menu_song_editformat():
 
     data[platform][key] = value
 
-    if (new_format not in valid_spotdl_format):
-        rich.print("[yellow]Please note that the new format is not in the list of valid formats required by the 'spotdl' module. You must choose one from the list to be able to download via spotify, otherwise an error will occur in the 'spotdl' module.[/yellow]")
-        rich.print(f"List : [magenta]{valid_spotdl_format}[/magenta]")
+
+    if (new_format not in valid_soundcloud_format):
+        rich.print("[yellow]Please note that the new format is not in the list of valid formats required by the 'soundcloud' module. You must choose one from the list to be able to download via soundcloud, otherwise an error will occur in the 'soundcloud' module.[/yellow]")
+        rich.print(f"List : [magenta]{valid_soundcloud_format}[/magenta]")
         sleep(6)
         rich.print("[red]Failed[/red]")
         sleep(2)
-        sp_config_menu_song()
+        sc_config_menu_artist()
 
-    elif (new_format == sp_song_format):
+    elif (new_format == sc_artist_format):
         rich.print("[green]The new format was already in use[/green]")
         sleep(2)
-        sp_config_menu_song()
+        sc_config_menu_artist()
         
-    elif (new_format in valid_spotdl_format): 
+    elif (new_format in valid_soundcloud_format): 
         with open(dir_path, 'w') as file:
             json.dump(data, file, indent=4)
         rich.print("[green]Success[/green]")
         sleep(2)
-        sp_config_menu_song()
+        sc_config_menu_artist()
 
     else:
         rich.print("\n[red]Error[/rec]")
         sleep(3)
-        sp_config_menu_song()
+        sc_config_menu_artist()

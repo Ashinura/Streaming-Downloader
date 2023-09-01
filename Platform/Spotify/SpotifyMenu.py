@@ -1,7 +1,8 @@
 import os
 import colorama
 import rich
-
+import subprocess
+import json
 
 
 def sp_menu(): 
@@ -14,52 +15,74 @@ def sp_menu():
     logo()
 
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
-    rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]\n\n")
+    rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]\n")
 
-    rich.print(
-        "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]Song[/white]\n"
-        "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Playlist[/white]\n"
-        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]Artist[/white]\n"
-    )
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    config_path = os.path.join(script_dir, '..', '..', 'Configuration', 'config.json')
 
+    with open(config_path, 'r') as file:
+        data = json.load(file)
+
+    sp_song_path = data['spotify']['song']['path']
+    sp_song_format = data['spotify']['song']['format']
+
+    sp_playlist_path = data['spotify']['playlist']['path']
+    sp_playlist_format = data['spotify']['playlist']['format']
+
+    sp_artist_path = data['spotify']['artist']['path']
+    sp_artist_format = data['spotify']['artist']['format']
 
     choice = False
 
     while not choice:
-        try:   
-            option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Chose an option : "))
 
-            if option in [0, 1, 2, 3, 9]:
-                choice = True
+        option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or URL: "))
+
+        if option_or_url[:5] == "https":
+
+            url = option_or_url
+
+            if "track" in url: 
+                try:
+                    subprocess.run(["spotdl", option_or_url, "--output", sp_song_path, "--format", sp_song_format])
+
+                except Exception as e:
+                    print(f"\n{colorama.Fore.LIGHTRED_EX}The song didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
+
+            elif "playlist" or "album" in url: 
+                try:
+                    subprocess.run(["spotdl", url, "--output", sp_playlist_path, "--format", sp_playlist_format])
+
+                except Exception as e:
+                    print(f"\n{colorama.Fore.LIGHTRED_EX}The song didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
+
+
+            elif "artist" in url: 
+                try:
+                    subprocess.run(["spotdl", url, "--output", sp_artist_path, "--format", sp_artist_format])
+
+                except Exception as e:
+                    print(f"\n{colorama.Fore.LIGHTRED_EX}The song didn't download  \n{colorama.Fore.LIGHTYELLOW_EX}Try another URL \n{colorama.Fore.LIGHTMAGENTA_EX}Error : {e}    ")
 
             else:
+                rich.print('[red]Invalid URL.[/red]')
+
+
+        else:
+            try: 
+                if eval(option_or_url) in [0, 1, 9]:
+                    choice = True
+
+                    if eval(option_or_url) == 0:
+                        from StreamMenu import main_menu
+                        main_menu()
+
+                    elif eval(option_or_url) == 9: 
+                        from Configuration.Youtube.YouTubeConfig import yt_config_menu
+                        yt_config_menu()
+
+            except: 
                 rich.print(
                     "[red][[/red]" + "[bold white]![/bold white]" + "[red]][/red]",
-                    "[white]Invalid option selected, doesn't exist.[/white]"
+                    "[white]Invalid option or URL.[/white]"
                 )
-
-        except ValueError:
-            rich.print(
-                "[red][[/red]" + "[bold white]![/bold white]" + "[red]][/red]",
-                "[white]Invalid option selected, must be int.[/white]"
-            )
-
-    if option == 0:
-        from StreamMenu import main_menu
-        main_menu()
-        
-    elif option == 1:
-        from .SpotifySong import sp_song
-        sp_song()
-
-    elif option == 2:
-        from .SpotifyPlaylist import sp_playlist
-        sp_playlist()
-
-    elif option == 3:
-        from .SpotifyArtist import sp_artist
-        sp_artist()
-
-    elif option == 9: 
-        from Configuration.Spotify.SpotifyConfig import sp_config_menu
-        sp_config_menu()

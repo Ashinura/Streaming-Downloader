@@ -1,6 +1,6 @@
 {
     "user": {
-        "autoupdate": "True",
+        "autoupdate": "False",
         "quietytdlp": "False"
     },
     "youtube": {
@@ -42,6 +42,24 @@
             "opus",
             "m4a",
             "wav"
+        ]
+    },
+    "soundcloud": {
+        "song": {
+            "path": "./Downloaded",
+            "format": "mp3"
+        },
+        "playlist": {
+            "path": "./Downloaded",
+            "format": "mp3"
+        },
+        "artist": {
+            "path": "./Downloaded",
+            "format": "mp3"
+        },
+        "valid_soundcloud_format": [
+            "mp3",
+            "opus"
         ]
     }
 }

@@ -32,56 +32,17 @@ def yt_short():
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]")
 
-    rich.print(
-        "\n\n[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]Download Short[/white]\n"
-    )   
-
-
     choice = False
 
     while not choice:
-        try:   
-            option = eval(str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Chose an option : ")))
+             
+        option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or Short URL: "))
 
-            if option in [0, 1, 9]:
-                choice = True 
+        if option_or_url[:5] == "https": 
 
-            else:
-                rich.print(
-                    "[red][[/red]" + "[bold white]![/bold white]" + "[red]][/red]",
-                    "[white]Invalid option selected, doesn't exist.[/white]"
-                )
-
-        except ValueError:
-            rich.print(
-                "[red][[/red]" + "[bold white]![/bold white]" + "[red]][/red]",
-                "[white]Invalid option selected, must be int.[/white]"
-            )
-
-    if option == 0:
-        from StreamMenu import main_menu
-        main_menu()
-        
-    elif option == 1:
-        yt_short_download(data)
-        
-    elif option == 9: 
-        from Configuration.Youtube.YouTubeConfig import yt_config_menu
-        yt_config_menu()
-
-
-
-def yt_short_download(data): 
-
-    yt_short_path = data['youtube']['shorts']['path']
-    yt_short_format = data['youtube']['shorts']['format']
-    quietytdlp = data["user"]["quietytdlp"]
-    
-
-    while True:
-
-        short_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Short URL : "))
-        if short_url[:5] == "https": 
+            yt_short_path = data['youtube']['shorts']['path']
+            yt_short_format = data['youtube']['shorts']['format']
+            quietytdlp = data["user"]["quietytdlp"]
 
             try:
                 ydl_opts = {
@@ -91,7 +52,7 @@ def yt_short_download(data):
                     'outtmpl': f"{yt_short_path}/%(uploader)s - %(title)s.%(ext)s",     
                 }
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([short_url])
+                    ydl.download([option_or_url])
 
             except yt_dlp.DownloadError:
                 ydl_opts = {
@@ -102,11 +63,28 @@ def yt_short_download(data):
                 }
 
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([short_url])
+                    ydl.download([option_or_url])
 
                 print('') # Space
                 if yt_short_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
                 print('The download was made with the best parameters for the URL')
 
+
         else:
-            rich.print('[red]Invalid URL.[/red]')
+            try: 
+                if eval(option_or_url) in [0, 1, 9]:
+                    choice = True
+
+                    if eval(option_or_url) == 0:
+                        from StreamMenu import main_menu
+                        main_menu()
+
+                    elif eval(option_or_url) == 9: 
+                        from Configuration.Youtube.YouTubeConfig import yt_config_menu
+                        yt_config_menu()
+
+            except: 
+                rich.print(
+                    "[red][[/red]" + "[bold white]![/bold white]" + "[red]][/red]",
+                    "[white]Invalid option or URL.[/white]"
+                )

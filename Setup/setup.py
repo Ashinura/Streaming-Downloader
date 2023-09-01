@@ -4,6 +4,7 @@ import site
 import fileinput
 import re
 import time
+import sys
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 script_dir = re.sub(r"\\", "/", script_dir)
@@ -24,18 +25,18 @@ def installation_menu():
     print(
         "[0]", "Check for updates    |   https://github.com/Ashinura/Streaming-Downloader/releases\n\n"
         "[1]", "Full Installation    |   Recommended for first-time installation, does everything listed below.\n\n"
-        "[4]", "Install all packages |   Download all packages required to run Streaming-Downloader.\n"
-        "[5]", "Install FFmpeg       |   Quality of youtube videos downloaded was increased but you must install FFmpeg now.\n"
-        "[6]", "Install GIT          |   Necessary for enable auto-check-update in user configuration.\n"
+        "[2]", "Install all packages |   Download all packages required to run Streaming-Downloader.\n"
+        "[3]", "Install FFmpeg       |   Quality of youtube videos downloaded was increased but you must install FFmpeg now.\n"
+        "[4]", "Install GIT          |   Necessary for enable auto-check-update in user configuration.\n"
     )
 
     choice = False
 
     while not choice:
         try:   
-            option = int(input("Chose an option : "))
+            option = int(input("\nChose an option : "))
 
-            if option in [0, 1, 2, 4, 5]:
+            if option in [0, 1, 2, 3, 4]:
                 choice = True
 
             else:
@@ -49,17 +50,20 @@ def installation_menu():
             )
 
     if option == 0:
-        print('not aviable yet, this opt will come soon :>')
-        exit()
+        from Configuration.GHAutoUpdate import github_update
+        github_update()
 
     elif option == 1:
         installation()
 
-    elif option == 4:
+    elif option == 2:
         dl_packages()
 
-    elif option == 5:
+    elif option == 3:
         install_ffmpeg()
+
+    elif option == 4:
+        install_git()
 
 
 
@@ -74,56 +78,6 @@ def dl_packages():
 
     pip_upgrade = subprocess.run(["python", "-m", "pip", "install", "--upgrade", "pip"])
     result = subprocess.run(["pip", "install", "-r", os.path.join(script_dir, "requirements.txt")])
-
-
-
-def pytube_fix(): 
-
-    global file_to_modify
-
-    pytube_folder = site.getusersitepackages() + '/pytube'
-    file_to_modify = os.path.join(pytube_folder, 'cipher.py')
-    fix = False
-
-    with open(file_to_modify, 'r') as file:
-        for line in file:
-            if 'var_regex = re.compile(r"^\$*\w+\W")' in line:
-                fix = True
-
-    if fix == False:
-
-        os.system('cls')
-        installation_logo()
-        print("Pytube fix...")
-
-        if os.path.exists(file_to_modify):
-
-            with fileinput.FileInput(file_to_modify, inplace=True) as file:
-                for line in file:
-                    new_line = line.replace('var_regex = re.compile(r"^\w+\W")', 'var_regex = re.compile(r"^\$*\w+\W")')
-                    print(new_line, end='')
-
-        elif os.path.exists(file_to_modify) == False:
-            try:
-                import pytube
-            except ImportError:
-                print("\nPytube package is missing.")
-
-            else:
-                pytube_folder = os.path.dirname(pytube.__file__)
-                file_to_modify = os.path.join(pytube_folder, 'cipher.py')
-
-                if os.path.exists(file_to_modify):
-                    with fileinput.FileInput(file_to_modify, inplace=True) as file:
-                        for line in file:
-                            new_line = line.replace('var_regex = re.compile(r"^\w+\W")', 'var_regex = re.compile(r"^\$*\w+\W")')
-                            print(new_line, end='')
-
-        else: 
-            print("Pytube fix can't be done, if you are at this stage, do the steps of pytube fix manually on readme.md and please submit a new github issue.")
-
-    else: 
-        pass
 
 
 
@@ -148,33 +102,60 @@ def install_ffmpeg():
 
 
 def install_git():
+
+    os.system('cls')
+    installation_logo()
+    print("GIT installation...")
+
     try:
-        # Check if Git is already installed by trying to run it
         subprocess.check_output(["git", "--version"])
         print("Git is already installed.")
+
     except FileNotFoundError:
+
         try:
-            # Download the Git installer for Windows
-            git_installer_url = "https://github.com/git-for-windows/git/releases/latest/download/Git-2.33.0-64-bit.exe"
-            git_installer_path = "GitInstaller.exe"
-            subprocess.run(["curl", "-Lo", git_installer_path, git_installer_url], shell=True, check=True)
-
-            # Run the Git installer in silent mode
-            subprocess.run([git_installer_path, "/SILENT"], shell=True, check=True)
-
-            # Add the Git installation path to PATH
-            git_install_dir = os.path.join(os.environ["ProgramFiles(x86)"], "Git", "cmd")
-            os.environ["PATH"] += os.pathsep + git_install_dir
-
-            print("Git has been successfully installed.")
+            subprocess.run(['winget', 'install', '--id', 'Git.Git', '-e', '--source', 'winget'])
 
         except subprocess.CalledProcessError as err:
-            print("Error while installing Git:", err)
-        finally:
-            # Remove the installer after use
-            if os.path.exists(git_installer_path):
-                os.remove(git_installer_path)
+            print("Error while opening Git download page:", err)
+            print("Please download and install Git from the official website.")
+            print("After installation, please exit and run this script again.")
+            time.sleep(3)
+            git_installer_url = "https://git-scm.com/download/win"
+            subprocess.run(["start", git_installer_url], shell=True, check=True)
 
+
+
+def set_python_path():
+
+    if any("python" in p.lower() for p in os.environ["PATH"].split(os.pathsep)):
+        print("Python is already in the PATH. No modifications necessary.")
+        return
+
+    python_executable_path = sys.executable
+    print(f"Path to python.exe: {python_executable_path}")
+
+    site_packages_path = site.getsitepackages()
+    print("Path to site-packages directory:", site_packages_path)
+
+    new_path = re.sub(r"\\", '\\\\', site_packages_path[0])
+    print("New path to site-packages directory:", new_path)
+
+    os.environ['Path'] = os.environ['Path'] + ';' + python_executable_path + ';' + new_path
+
+    subprocess.run(['pip', 'install', 'pyuac'])
+    import pyuac
+
+    try:
+        if not pyuac.isUserAdmin():
+            print("You are not running in admin.")
+            print("Running as admin...")
+            pyuac.runAsAdmin(subprocess.run(['setx', '/M', 'Path', os.environ['Path']], check=True))
+
+        print("The PATH variable has been successfully updated.")
+        
+    except subprocess.CalledProcessError as err:
+        print("Error updating the PATH variable:", err)
 
 
 def installation():
@@ -216,7 +197,6 @@ def installation():
 
     if pip_upgrade.returncode == 0: 
         print("Pip was updated")
-
 
 
 installation_menu()

@@ -5,7 +5,7 @@ from time import sleep
 from ..ConfigExtras import *
 
 
-def sp_config_menu():
+def sc_config_menu():
 
     os.system('cls')
         
@@ -17,13 +17,13 @@ def sp_config_menu():
     with open(os.path.join(dir_path, '..', 'config.json'), 'r') as file: 
         data = json.load(file)
 
-    sp_song_path = data['spotify']['song']['path']
-    sp_playlist_path = data['spotify']['playlist']['path']
-    sp_artist_path = data['spotify']['artist']['path']
+    sc_song_path = data['soundcloud']['song']['path']
+    sc_playlist_path = data['soundcloud']['playlist']['path']
+    sc_artist_path = data['soundcloud']['artist']['path']
 
-    sp_song_format = data['spotify']['song']['format']
-    sp_playlist_format = data['spotify']['playlist']['format']
-    sp_artist_format = data['spotify']['artist']['format']
+    sc_song_format = data['soundcloud']['song']['format']
+    sc_playlist_format = data['soundcloud']['playlist']['format']
+    sc_artist_format = data['soundcloud']['artist']['format']
 
 
     logo()
@@ -32,12 +32,12 @@ def sp_config_menu():
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Back to the config menu[/cyan]\n\n")
 
     rich.print( "┌-----------------------------------------------------------------------------------------------------------┐")
-    rich.print( "|                                                  Spotify                                                  |")
+    rich.print( "|                                                  SoundCloud                                                  |")
     rich.print( "├-----------------------------------------------------------------------------------------------------------┤\n")
-    rich.print("    [bright_black]([/bright_black]" + "[bold white]![/bold white]" + "[bright_black])[/bright_black]", "Note that the metadata are only set in the following formats: 'mp3', 'flac' and 'm4a'.\n")
-    rich.print("    [yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", f"Edit - Song | Path: [green]{sp_song_path}[/green] - Format : [green]{sp_song_format}[/green]")
-    rich.print("    [yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", f"Edit - Playlist | Path: [green]{sp_playlist_path}[/green] - Format : [green]{sp_playlist_format}[/green]")
-    rich.print("    [yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", f"Edit - Artist | Path: [green]{sp_artist_path}[/green] - Format : [green]{sp_artist_format}[/green]\n")
+    rich.print("    [bright_black]([/bright_black]" + "[bold white]![/bold white]" + "[bright_black])[/bright_black]", "Note that the metadata aren't set yet.\n")
+    rich.print("    [yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", f"Edit - Song | Path: [green]{sc_song_path}[/green] - Format : [green]{sc_song_format}[/green]")
+    rich.print("    [yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", f"Edit - Playlist | Path: [green]{sc_playlist_path}[/green] - Format : [green]{sc_playlist_format}[/green]")
+    rich.print("    [yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", f"Edit - Artist | Path: [green]{sc_artist_path}[/green] - Format : [green]{sc_artist_format}[/green]\n")
     rich.print("    [yellow][[/yellow]" + "[bold white]4[/bold white]" + "[yellow]][/yellow]", "Clear song folder files")
     rich.print("    [yellow][[/yellow]" + "[bold white]5[/bold white]" + "[yellow]][/yellow]", "Clear playlist folder files")
     rich.print("    [yellow][[/yellow]" + "[bold white]6[/bold white]" + "[yellow]][/yellow]", "Clear artist folder files")
@@ -70,37 +70,37 @@ def sp_config_menu():
         main_menu()
 
     elif option == 1:
-        from .SPConfigSong import sp_config_menu_song
-        sp_config_menu_song()
+        from .SCConfigSong import sc_config_menu_song
+        sc_config_menu_song()
 
     elif option == 2:
-        from .SPConfigPlaylist import sp_config_menu_playlist
-        sp_config_menu_playlist()
+        from .SCConfigPlaylist import sc_config_menu_playlist
+        sc_config_menu_playlist()
 
     elif option == 3:
-        from .SPConfigArtist import sp_config_menu_artist
-        sp_config_menu_artist()
+        from .SCConfigArtist import sc_config_menu_artist
+        sc_config_menu_artist()
 
     elif option == 4:
-        clear_folder(os.path.abspath(sp_song_path))
-        if is_folder_empty(os.path.abspath(sp_song_path)):
+        clear_folder(os.path.abspath(sc_song_path))
+        if is_folder_empty(os.path.abspath(sc_song_path)):
             print(f"{colorama.Fore.LIGHTGREEN_EX}The song folder has been successfully cleared.{colorama.Fore.RESET}")
             sleep(1)
-            sp_config_menu()
+            sc_config_menu()
 
     elif option == 5:
-        clear_folder(os.path.abspath(sp_playlist_path))
-        if is_folder_empty(os.path.abspath(sp_playlist_path)):
+        clear_folder(os.path.abspath(sc_playlist_path))
+        if is_folder_empty(os.path.abspath(sc_playlist_path)):
             print(f"{colorama.Fore.LIGHTGREEN_EX}The playlist folder has been successfully cleared.{colorama.Fore.RESET}")
             sleep(1)
-            sp_config_menu()
+            sc_config_menu()
 
     elif option == 6:
-        clear_folder(os.path.abspath(sp_artist_path))
-        if is_folder_empty(os.path.abspath(sp_artist_path)):
+        clear_folder(os.path.abspath(sc_artist_path))
+        if is_folder_empty(os.path.abspath(sc_artist_path)):
             print(f"{colorama.Fore.LIGHTGREEN_EX}The artist folder has been successfully cleared.{colorama.Fore.RESET}")
             sleep(1)
-            sp_config_menu()
+            sc_config_menu()
 
     elif option == 9: 
         from Configuration.ConfigMenu import config_menu

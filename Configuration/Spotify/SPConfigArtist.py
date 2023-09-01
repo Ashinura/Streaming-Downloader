@@ -152,14 +152,10 @@ def sp_config_menu_artist_editformat():
 
     data[platform][key] = value
 
-    with open(dir_path, 'w') as file:
-        json.dump(data, file, indent=4)
-
-
     if (new_format not in valid_spotdl_format):
         rich.print("[yellow]Please note that the new format is not in the list of valid formats required by the 'spotdl' module. You must choose one from the list to be able to download via spotify, otherwise an error will occur in the 'spotdl' module.[/yellow]")
         rich.print(f"List : [magenta]{valid_spotdl_format}[/magenta]")
-        sleep(12)
+        sleep(6)
         rich.print("[red]Failed[/red]")
         sleep(2)
         sp_config_menu_artist()
@@ -170,6 +166,8 @@ def sp_config_menu_artist_editformat():
         sp_config_menu_artist()
         
     elif (new_format in valid_spotdl_format): 
+        with open(dir_path, 'w') as file:
+            json.dump(data, file, indent=4)
         rich.print("[green]Success[/green]")
         sleep(2)
         sp_config_menu_artist()

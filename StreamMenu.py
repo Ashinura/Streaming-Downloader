@@ -4,7 +4,6 @@ import json
 import os
 
 
-
 def main_logo():
 
     print(colorama.Fore.LIGHTMAGENTA_EX)

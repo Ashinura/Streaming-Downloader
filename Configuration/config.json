@@ -61,5 +61,14 @@
             "mp3",
             "opus"
         ]
+    },
+    "twitch": {
+        "redif": {
+            "path": "./Downloaded",
+            "format": "mp4"
+        },
+        "valid_twitch_format": [
+            "mp4"
+        ]
     }
 }

@@ -92,7 +92,7 @@ def yt_music_individually(data):
 
                 choice_continue = str(input("The URL is a playlist, continue ? [y/n] : "))
 
-                if choice_continue in ["y", "yes"] and yt_music_format != "best":
+                if choice_continue in ["y", "yes"] and yt_music_format is not "best":
                     try:
                         ydl_opts = {
                             'format': f'bestaudio[ext={yt_music_format}]',

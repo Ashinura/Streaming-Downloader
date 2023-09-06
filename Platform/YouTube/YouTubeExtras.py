@@ -10,13 +10,13 @@ def logo(music: bool, video: bool, short: bool):
     print("                                   ")
 
     if (music and not video and not short): 
-        print("\nMusic                                                                            ")
+        print("Music                                                                            ")
 
     elif (video and not music and not short): 
-        print("\nVideo                                                                            ")
+        print("Video                                                                            ")
 
     elif (short and not music and not video): 
-        print("\nShort                                                                            ")
+        print("Short                                                                            ")
 
     else: 
         print("                                                                                 ")

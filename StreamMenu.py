@@ -45,9 +45,10 @@ def main_menu():
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]\n\n")
 
     rich.print(
-        "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]YouTube[/white]\n"
-        "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]\n"
-        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]SoundCloud[/white]\n"
+        "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]YouTube[/white]", "        "
+        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]\n" + 
+        "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Twitch[/white]", "         "
+        "[yellow][[/yellow]" + "[bold white]4[/bold white]" + "[yellow]][/yellow]", "[white]SoundCloud[/white]\n"
     )
 
     choice = False
@@ -56,7 +57,7 @@ def main_menu():
         try:   
             option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Chose an option : "))
 
-            if option in [0, 1, 2, 3, 9]:
+            if option in [0, 1, 2, 3, 4, 9]:
                 choice = True
 
             else:
@@ -77,12 +78,16 @@ def main_menu():
     elif option == 1:
         from Platform.YouTube.YouTubeMenu import yt_menu
         yt_menu()
-
+        
     elif option == 2:
+        from Platform.Twitch.TwitchMenu import tw_menu
+        tw_menu()
+
+    elif option == 3:
         from Platform.Spotify.SpotifyMenu import sp_menu
         sp_menu()
 
-    elif option == 3:
+    elif option == 4:
         from Platform.Soundcloud.SoundCloudMenu import sc_menu
         sc_menu()
 

@@ -93,7 +93,7 @@ def yt_video_individually(data):
 
                 choice_continue = str(input("The URL is a playlist, continue ? [y/n] : "))
 
-                if choice_continue in ["y", "yes"] and yt_video_format != "best":
+                if choice_continue in ["y", "yes"] and yt_video_format is not "best":
                     try:
                         ydl_opts = {
                             'format': f'bestvideo[ext={yt_video_format}]+bestaudio/best[ext={yt_video_format}]',
@@ -124,31 +124,32 @@ def yt_video_individually(data):
                     yt_video()
 
             else:
-                try:
-                    ydl_opts = {
-                        'format': f'bestvideo[ext={yt_video_format}]+bestaudio/best[ext={yt_video_format}]',
-                        'quiet': eval(quietytdlp),             
-                        'no_warnings': True,        
-                        'outtmpl': f"{yt_video_path}/%(uploader)s - %(title)s.%(ext)s",     
-                    }
+                if yt_video_format is not "best":  
+                    try:
+                        ydl_opts = {
+                            'format': f'bestvideo[ext={yt_video_format}]+bestaudio/best[ext={yt_video_format}]',
+                            'quiet': eval(quietytdlp),             
+                            'no_warnings': True,        
+                            'outtmpl': f"{yt_video_path}/%(uploader)s - %(title)s.%(ext)s",     
+                        }
 
-                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                        ydl.download([video_url])
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([video_url])
 
-                except yt_dlp.DownloadError:
-                    ydl_opts = {
-                        'format': f'bv+ba/best',
-                        'quiet': eval(quietytdlp),             
-                        'no_warnings': True,        
-                        'outtmpl': f"{yt_video_path}/%(uploader)s - %(title)s.%(ext)s",     
-                    }
+                    except yt_dlp.DownloadError:
+                        ydl_opts = {
+                            'format': f'bv+ba/best',
+                            'quiet': eval(quietytdlp),             
+                            'no_warnings': True,        
+                            'outtmpl': f"{yt_video_path}/%(uploader)s - %(title)s.%(ext)s",     
+                        }
 
-                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                        ydl.download([video_url])
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([video_url])
 
-                    print('') # Space
-                    if yt_video_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
-                    print('The download was made with the best parameters for the URL')
+                        print('') # Space
+                        if yt_video_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
+                        print('The download was made with the best parameters for the URL')
 
         else:
             rich.print('[red]Invalid URL.[/red]')

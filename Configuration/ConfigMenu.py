@@ -15,11 +15,11 @@ def config_menu():
     rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit user configuration[/cyan]\n\n")
 
     rich.print(
-        "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]YouTube[/white]\n"
-        "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]\n"
-        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]SoundCloud[/white]\n"
+        "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]YouTube[/white]", "        "
+        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]\n" + 
+        "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Twitch[/white]", "         "
+        "[yellow][[/yellow]" + "[bold white]4[/bold white]" + "[yellow]][/yellow]", "[white]SoundCloud[/white]\n"
     )
-
 
     choice = False
 
@@ -27,7 +27,7 @@ def config_menu():
         try:   
             option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Select a platform : "))
 
-            if option in [0, 1, 2, 3, 9]:
+            if option in [0, 1, 2, 3, 4, 9]:
                 choice = True
 
             else:
@@ -51,10 +51,14 @@ def config_menu():
         yt_config_menu()
 
     elif option == 2:
+        from .Twitch.TwitchConfig import tw_config_menu
+        tw_config_menu()
+        
+    elif option == 3:
         from .Spotify.SpotifyConfig import sp_config_menu
         sp_config_menu()
 
-    elif option == 3:
+    elif option == 4:
         from .Soundcloud.SoundCloudConfig import sc_config_menu
         sc_config_menu()
 

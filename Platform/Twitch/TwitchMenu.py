@@ -2,11 +2,11 @@ import os
 import colorama
 import rich
 import yt_dlp
-from .YouTubeExtras import *
+from .TwitchExtra import *
 
 
 
-def yt_short():
+def tw_menu():
 
     os.system('cls')
 
@@ -18,36 +18,36 @@ def yt_short():
     with open(config_path, 'r') as file:
         data = json.load(file)
 
-    yt_short_path = data['youtube']['shorts']['path']
-    yt_short_format = data['youtube']['shorts']['format']
-    
+    tw_redif_path = data['twitch']['redif']['path']
+    tw_redif_format = data['twitch']['redif']['format']
 
-    logo(music=False, video=True, short=False)
 
-    print(f"{colorama.Fore.RED}Path : {colorama.Fore.LIGHTRED_EX}{os.path.abspath(yt_short_path)}")
-    print(f"{colorama.Fore.RED}Format : {colorama.Fore.LIGHTRED_EX}{yt_short_format}\n")
+    logo()
+
+    rich.print(f"[purple]Path : {os.path.abspath(tw_redif_path)}[/purple]")
+    rich.print(f"[purple]Format : {tw_redif_format}\n[/purple]")
 
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")
-    rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]")
+    rich.print("[green][[/green]" + "[bold white]9[/bold white]" + "[green]][/green]", "[cyan]Show/Edit configuration[/cyan]\n")
 
     choice = False
 
     while not choice:
              
-        option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or Short URL: "))
+        option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or redif URL: "))
 
-        if option_or_url[:5] == "https": 
+        if option_or_url[:29] == "https://www.twitch.tv/videos/": 
 
-            yt_short_path = data['youtube']['shorts']['path']
-            yt_short_format = data['youtube']['shorts']['format']
+            tw_redif_path = data['twitch']['redif']['path']
+            tw_redif_format = data['twitch']['redif']['format']
             quietytdlp = data["user"]["quietytdlp"]
 
             try:
                 ydl_opts = {
-                    'format': f'bestvideo[ext={yt_short_format}]+bestaudio/best[ext={yt_short_format}]',
+                    'format': f'bestvideo[ext={tw_redif_format}]+bestaudio/best[ext={tw_redif_format}]',
                     'quiet': eval(quietytdlp),             
                     'no_warnings': True,        
-                    'outtmpl': f"{yt_short_path}/%(uploader)s - %(title)s.%(ext)s",     
+                    'outtmpl': f"{tw_redif_path}/%(uploader)s - %(title)s.%(ext)s",     
                 }
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     ydl.download([option_or_url])
@@ -57,14 +57,14 @@ def yt_short():
                     'format': f'bv+ba/best',
                     'quiet': eval(quietytdlp),             
                     'no_warnings': True,        
-                    'outtmpl': f"{yt_short_path}/%(uploader)s - %(title)s.%(ext)s",     
+                    'outtmpl': f"{tw_redif_path}/%(uploader)s - %(title)s.%(ext)s",     
                 }
 
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     ydl.download([option_or_url])
 
                 print('') # Space
-                if yt_short_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
+                if tw_redif_format != "best": rich.print('[yellow]Your download could not be made in the desired format.[/yellow]')
                 print('The download was made with the best parameters for the URL')
 
 
@@ -78,8 +78,8 @@ def yt_short():
                         main_menu()
 
                     elif eval(option_or_url) == 9: 
-                        from Configuration.Youtube.YouTubeConfig import yt_config_menu
-                        yt_config_menu()
+                        from Configuration.Twitch.TwitchConfig import tw_config_menu
+                        tw_config_menu()
 
             except: 
                 rich.print(

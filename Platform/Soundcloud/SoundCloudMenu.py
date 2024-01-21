@@ -41,7 +41,7 @@ def sc_menu():
 
         option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or URL: "))
 
-        if option_or_url[:5] == "https":
+        if option_or_url[:23] == "https://soundcloud.com/":
 
             url = option_or_url
 

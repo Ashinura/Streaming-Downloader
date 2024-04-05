@@ -26,7 +26,7 @@ def installation_menu():
         "[0]", "Check for updates    |   https://github.com/Ashinura/Streaming-Downloader/releases\n\n"
         "[1]", "Full Installation    |   Recommended for first-time installation, does everything listed below.\n\n"
         "[2]", "Install all packages |   Download all packages required to run Streaming-Downloader.\n"
-        "[3]", "Install FFmpeg       |   Quality of youtube videos downloaded was increased but you must install FFmpeg now.\n"
+        "[3]", "Install FFmpeg       |   Max quality of youtube videos downloaded is increased but you must install FFmpeg now.\n"
         "[4]", "Install GIT          |   Necessary for enable auto-check-update in user configuration.\n"
     )
 

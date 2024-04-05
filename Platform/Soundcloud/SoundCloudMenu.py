@@ -1,17 +1,19 @@
 import os
 import colorama
 import rich
-import subprocess
 import json
 import yt_dlp
+import requests
+import send2trash
+import uuid
+from bs4 import BeautifulSoup
+from .SoundCloudExtra import *
+
 
 
 def sc_menu(): 
 
     os.system('cls')
-
-    from .SoundCloudExtra import logo
-
 
     logo()
 
@@ -30,10 +32,8 @@ def sc_menu():
     sc_playlist_path = data['soundcloud']['playlist']['path']
     sc_playlist_format = data['soundcloud']['playlist']['format']
 
-    sc_artist_path = data['soundcloud']['artist']['path']
-    sc_artist_format = data['soundcloud']['artist']['format']
-
     quietytdlp = data["user"]["quietytdlp"]
+    download_in_progress_path = "./Platform/Soundcloud/InProgress"
 
     choice = False
 
@@ -51,41 +51,65 @@ def sc_menu():
                 info = ydl.extract_info(url, download=False)
                 
             if "entries" in info: 
-
                 if "sets" or "playlist" in url:
-                        
+                    for entry in info['entries']:
+
+                        response = requests.get(entry['thumbnail'])
+                        temp_cover_filename = f"{download_in_progress_path}/cover_{uuid.uuid4()}.jpg"
+
+                        with open(f'{temp_cover_filename}', 'wb') as cover_file:
+                            cover_file.write(response.content)
+                            
+                        filename_template = f"{download_in_progress_path}/%(title)s.%(ext)s"
+                        filename = filename_template % {'title': clean_title(entry['title']), 'ext': sc_playlist_format}
+
                         ydl_opts = {
-                            'format': f'bestaudio[ext={sc_playlist_format}]',
-                            'quiet': eval(quietytdlp),             
-                            'no_warnings': True,        
-                            'outtmpl': f"{sc_playlist_path}/%(uploader)s - %(title)s.%(ext)s",     
+                            'quiet': quietytdlp,
+                            'no_warnings': True,
+                            'outtmpl': filename,
+                            'format': 'bestaudio/best', 
                         }
 
                         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                            ydl.extract_info(url)
-                
-                else:
-                    ydl_opts = {
-                        'format': f'bestaudio[ext={sc_artist_format}]',
-                        'quiet': eval(quietytdlp),             
-                        'no_warnings': True,        
-                        'outtmpl': f"{sc_artist_path}/%(uploader)s - %(title)s.%(ext)s",     
-                    }
+                          ydl.extract_info(entry['webpage_url'])
 
-                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                        ydl.extract_info(url)
+                        final_filename = f"{sc_playlist_path}/{entry['uploader']} - {clean_title(entry['title'])}.{sc_playlist_format}"
+                        os.system(f'ffmpeg -loglevel 0 -i "{filename}" -i "{temp_cover_filename}" -map 0 -map 1 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" "{final_filename}"')
+
+                        send2trash.send2trash(temp_cover_filename)
+                        send2trash.send2trash(filename)
 
 
             else:
+                
+                response = requests.get(url)
+                soup = BeautifulSoup(response.text, 'html.parser')
+                cover_url = soup.find("meta", property="og:image")["content"]
+                cover_request = requests.get(cover_url, allow_redirects=True)
+        
+                temp_cover_filename = f"{download_in_progress_path}/cover_{uuid.uuid4()}.jpg"
+        
+                with open(temp_cover_filename, 'wb') as cover_file:
+                  cover_file.write(cover_request.content)
+        
+                filename_template = f"{download_in_progress_path}/%(title)s.%(ext)s"
+                filename = filename_template % {'title': clean_title(info['title']), 'ext': sc_song_format}
+        
                 ydl_opts = {
-                    'format': f'bestaudio[ext={sc_song_format}]',
-                    'quiet': eval(quietytdlp),             
-                    'no_warnings': True,        
-                    'outtmpl': f"{sc_song_path}/%(uploader)s - %(title)s.%(ext)s",     
+                    'quiet': quietytdlp,
+                    'no_warnings': True,
+                    'outtmpl': filename,
+                    'format': 'bestaudio/best', 
                 }
-
+        
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    ydl.extract_info(url)
+                  ydl.extract_info(url)
+        
+                final_filename = f"{sc_song_path}/{info['uploader']} - {clean_title(info['title'])}.{sc_song_format}"
+                os.system(f'ffmpeg -loglevel 0 -i "{filename}" -i "{temp_cover_filename}" -map 0 -map 1 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" "{final_filename}"')
+
+                send2trash.send2trash(temp_cover_filename)
+                send2trash.send2trash(filename)
 
 
         else:

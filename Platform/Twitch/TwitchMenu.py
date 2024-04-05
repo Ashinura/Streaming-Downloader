@@ -36,7 +36,7 @@ def tw_menu():
              
         option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or redif URL: "))
 
-        if option_or_url[:29] == "https://www.twitch.tv/videos/": 
+        if option_or_url[:22] == "https://www.twitch.tv/": 
 
             tw_redif_path = data['twitch']['redif']['path']
             tw_redif_format = data['twitch']['redif']['format']

@@ -19,10 +19,17 @@ def get_readme_content():
 
 
 def get_current_version(readme_content):
-    match = re.search(r'Current Version: (\d+\.\d+\.\d+)', readme_content)
+    match = re.search(r'Current Version: v(\d+\.\d+\.\d+)', readme_content)
     if match:
         return match.group(1)
-    return None
+    else: 
+        match = re.search(r'Current Version: (\d+\.\d+\.\d+)', readme_content)
+
+
+    if match:
+        return match.group(1)   
+    else: 
+        return None
 
 
 
@@ -55,36 +62,36 @@ def github_update():
                         try:
                             subprocess.run(['git', 'pull'])
 
-                            new_readme_content = re.sub(r'Current Version: \d+\.\d+\.\d+', f'Current Version: {latest_version}', readme_content)
+                            new_readme_content = re.sub(r'Current Version: v(\d+\.\d+\.\d+)', f'Current Version: {latest_version}', readme_content)
                             with open('README.md', 'w', encoding='utf-8') as readme_file:
                                 readme_file.write(new_readme_content)
 
                             print("Update completed successfully.")
                             sleep(2)
-                            main_menu()
+                            # main_menu()
                         
                         except Exception as err: 
                             print(err)
                             sleep(5)
-                            main_menu()
+                            # main_menu()
 
                     else:
                         print(f"\n{api_url}\nUpdate declined.")
                         sleep(2)
-                        main_menu()
+                        # main_menu()
                 else:
                     print(f"\n{api_url}\nNo updates available.")
                     sleep(2)
-                    main_menu()
+                    # main_menu()
             else:
                 print(f"\n{api_url}\nError retrieving information from GitHub.")
                 sleep(2)
-                main_menu()
+                # main_menu()
         else:
             print(f"\n{api_url}\nUnable to retrieve current version from README.md .")
             sleep(2)
-            main_menu()
+            # main_menu()
     else:
         print(f"\n{api_url}\nUnable to retrieve content from README.md .")
         sleep(2)
-        main_menu()
+        # main_menu()

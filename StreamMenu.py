@@ -46,9 +46,10 @@ def main_menu():
 
     rich.print(
         "[yellow][[/yellow]" + "[bold white]1[/bold white]" + "[yellow]][/yellow]", "[white]YouTube[/white]", "        "
-        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]\n" + 
+        "[yellow][[/yellow]" + "[bold white]3[/bold white]" + "[yellow]][/yellow]", "[white]Spotify[/white]", "         "
+        "[yellow][[/yellow]" + "[bold white]5[/bold white]" + "[yellow]][/yellow]", "[white]Twitter[/white]\n" + 
         "[yellow][[/yellow]" + "[bold white]2[/bold white]" + "[yellow]][/yellow]", "[white]Twitch[/white]", "         "
-        "[yellow][[/yellow]" + "[bold white]4[/bold white]" + "[yellow]][/yellow]", "[white]SoundCloud[/white]\n"
+        "[yellow][[/yellow]" + "[bold white]4[/bold white]" + "[yellow]][/yellow]", "[white]SoundCloud[/white]\n" 
     )
 
     choice = False
@@ -57,7 +58,7 @@ def main_menu():
         try:   
             option = int(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Chose an option : "))
 
-            if option in [0, 1, 2, 3, 4, 9]:
+            if option in [0, 1, 2, 3, 4, 5, 9]:
                 choice = True
 
             else:
@@ -90,6 +91,10 @@ def main_menu():
     elif option == 4:
         from Platform.Soundcloud.SoundCloudMenu import sc_menu
         sc_menu()
+
+    elif option == 5:
+        from Platform.Twitter.TwitterMenu import tx_menu
+        tx_menu()
 
     elif option == 9:
         from Configuration.ConfigMenu import config_menu

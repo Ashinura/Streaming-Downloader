@@ -2,15 +2,13 @@ import os
 import colorama
 import rich
 import yt_dlp
-from .TwitchExtra import *
+import json
 
 
 
 def tw_menu():
 
     os.system('cls')
-
-    import json
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     config_path = os.path.join(script_dir, '..', '..', 'Configuration', 'config.json')
@@ -21,7 +19,7 @@ def tw_menu():
     tw_redif_path = data['twitch']['redif']['path']
     tw_redif_format = data['twitch']['redif']['format']
 
-
+    from .TwitchExtra import logo
     logo()
 
     rich.print(f"[purple]Path : {os.path.abspath(tw_redif_path)}[/purple]")
@@ -34,7 +32,7 @@ def tw_menu():
 
     while not choice:
              
-        option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or redif URL: "))
+        option_or_url = str(input(f"\n{colorama.Fore.LIGHTMAGENTA_EX}[{colorama.Fore.LIGHTWHITE_EX}~{colorama.Fore.LIGHTMAGENTA_EX}] {colorama.Fore.LIGHTWHITE_EX}Option or URL: "))
 
         if option_or_url[:22] == "https://www.twitch.tv/": 
 

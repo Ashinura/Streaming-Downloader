@@ -10,8 +10,6 @@ def sp_menu():
     os.system('cls')
 
     from .SpotifyExtras import logo
-
-
     logo()
 
     rich.print("[green][[/green]" + "[bold white]0[/bold white]" + "[green]][/green]", "[cyan]Back to the main menu[/cyan]")

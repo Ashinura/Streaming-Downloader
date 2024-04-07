@@ -70,5 +70,25 @@
         "valid_twitch_format": [
             "mp4"
         ]
+    },
+    "twitter": {
+        "videos": {
+            "path": "./Downloaded",
+            "format": "mp4",
+            "cookie-browser": "undefined"
+        },
+        "valid_cookie_browser": [
+            "brave",
+            "chrome",
+            "chromium",
+            "edge",
+            "firefox",
+            "opera",
+            "safari",
+            "vivaldi"
+        ],
+        "valid_twitter_format": [
+            "mp4"
+        ]
     }
 }

@@ -1,4 +1,4 @@
-Current Version: v1.4.6
+Current Version: v1.5.6
 
 <!--- mdformat-toc start --slug=github --->
 <div align="center">

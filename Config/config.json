@@ -1,0 +1,50 @@
+{      
+    "registred-sites": [
+        "youtube", "dailymotion", "soundcloud", "spotify", "facebook", "tiktok"
+    ],
+
+    "sites-data": {
+        "default": {
+            "category": "default",
+            "color": "white",
+            "lib": "ytdlp"           
+        },
+        "youtube": {
+            "category": "video",
+            "color": "red",
+            "lib": "ytdlp"
+        },
+        "dailymotion": {
+            "category": "video",
+            "color": "black",
+            "lib": "ytdlp"
+        },
+        "soundcloud": {
+            "category": "music",
+            "color": "yellow",
+            "lib": "ytdlp-sc"
+        },
+        "spotify": {
+            "category": "music",
+            "color": "green",
+            "lib": "spotdl"
+        },
+        "facebook": {
+            "category": "social",
+            "color": "blue",
+            "lib": "ytdlp"
+        }, 
+        "tiktok": {
+            "category": "social",
+            "color": "black",
+            "lib": "ytdlp"
+        }
+    },
+
+    "path": {
+        "default": "./DL",
+        "video": "./DL",
+        "music": "./DL/",
+        "social": "./DL"
+    }
+}

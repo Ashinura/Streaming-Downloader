@@ -115,6 +115,9 @@ def getSiteName(default):
         if "spotify" in siteName:
             url = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path
             siteName = "spotify" # open.spotify.com
+
+        if (siteName == "x"):
+            siteName = "twitter"
         # --------- #
 
         return siteName

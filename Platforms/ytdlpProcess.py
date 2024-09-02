@@ -197,6 +197,7 @@ def scYtdlpProcess(request: StreamDL):
 def ytdlpDefault(request: StreamDL):
 
     logo = colored((figlet_format(f'{request.name.capitalize()}', font= 'small', width = 200)), f'{request.color}')
+    os.system('cls')
     print(logo)
     
     ydl_opts = {
@@ -208,7 +209,8 @@ def ytdlpDefault(request: StreamDL):
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([request.url])
-
+        
+    rich.print("\n[green]Downloaded[/green]")
     print('The download was made with the best parameters for the URL')
     input("\nPress 'Enter' to be back on menu")
     from StreamingDL import main_menu

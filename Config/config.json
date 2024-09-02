@@ -1,6 +1,6 @@
 {      
     "registred-sites": [
-        "youtube", "dailymotion", "soundcloud", "spotify", "facebook", "tiktok"
+        "youtube", "dailymotion", "soundcloud", "spotify", "facebook", "tiktok", "twitter"
     ],
 
     "sites-data": {
@@ -37,6 +37,11 @@
         "tiktok": {
             "category": "social",
             "color": "black",
+            "lib": "ytdlp"
+        },
+        "twitter": {
+            "category": "social",
+            "color": "blue",
             "lib": "ytdlp"
         }
     },

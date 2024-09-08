@@ -20,8 +20,8 @@
 ## Information
 **Streaming-Downloader work on Windows**, others OS are not supported yet.
 Str-DL use [yt-dlp](https://github.com/yt-dlp/yt-dlp) & [spotDL](https://github.com/spotDL/spotify-downloader)
-See this [list](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) of 'supposed' all supported sites (many of them don't work but you can try and feeback me).
-The default path of downloaded materials are in the 'DL' folder
+See this [list](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) of 'supposed' all supported sites (many of them don't work but you can try and feedback me).
+The default path of downloaded materials are in the 'DL' folder.
 
 
 ## Future Features

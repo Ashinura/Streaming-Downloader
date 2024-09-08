@@ -12,6 +12,18 @@ from siteProcess import StreamDL
 
 
 
+def check_file(filename):
+    # Truncate filename if its too long 
+    max_length = 255
+    name, ext = os.path.splitext(filename)
+    max_name_length = max_length - len(ext)
+    if len(name) > max_name_length:
+        name = uuid.uuid4()
+    filename = name + ext
+    filename = filename.split('#')[0]
+    return filename
+
+
 def ytdlpProcess(request: StreamDL):
 
     logo = colored((figlet_format(f'{request.name.capitalize()}', font='small', width = 200)), f'{request.color}')
@@ -51,6 +63,11 @@ def ytdlpProcess(request: StreamDL):
                     'no_warnings': True,        
                     'outtmpl': f"{request.path}/%(uploader)s - %(title)s.%(ext)s",     
                 }
+
+                # Exception # 
+                if (request.name == "tiktok"): ydl_opts['outtmpl'] = f"{request.path}/%(uploader)s - {check_file(ydl_check.prepare_filename(info))}.{request.format}"
+                if (request.name == "twitter"): ydl_opts['outtmpl'] = f"{request.path}/{(ydl_check.prepare_filename(info)).split('-')[0]}- {uuid.uuid4()}"   # path/uploader - uuid.format
+                # --------- #
 
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     ydl.download([request.url])

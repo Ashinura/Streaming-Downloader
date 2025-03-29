@@ -1,13 +1,22 @@
-{      
+{
+    "user": {
+        "quietytdlp": "False"
+    },
     "registred-sites": [
-        "youtube", "dailymotion", "soundcloud", "spotify", "facebook", "tiktok", "twitter"
+        "youtube",
+        "dailymotion",
+        "soundcloud",
+        "spotify",
+        "facebook",
+        "tiktok",
+        "twitter"
     ],
-
+    
     "sites-data": {
         "default": {
             "category": "default",
             "color": "white",
-            "lib": "ytdlp"           
+            "lib": "ytdlp"
         },
         "youtube": {
             "category": "video",
@@ -33,7 +42,7 @@
             "category": "social",
             "color": "blue",
             "lib": "ytdlp"
-        }, 
+        },
         "tiktok": {
             "category": "social",
             "color": "black",
@@ -45,7 +54,6 @@
             "lib": "ytdlp"
         }
     },
-
     "path": {
         "default": "./DL",
         "video": "./DL",

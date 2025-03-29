@@ -4,11 +4,12 @@ import subprocess
 from bs4 import BeautifulSoup
 import yt_dlp
 import rich
+import json
 import os
 
 from pyfiglet import figlet_format
 from termcolor import colored
-from siteProcess import StreamDL
+from Platforms.siteProcess import StreamDL
 
 
 
@@ -30,6 +31,10 @@ def ytdlpProcess(request: StreamDL):
     os.system('cls')
     print(logo)
 
+    with open('./Config/config.json', 'r') as data:
+        config = json.load(data)
+    quietYtdlp = config["user"]["quietytdlp"]
+
     try: 
         check_url = {"quiet": True, 'no_warnings': True, 'simulate': True,}
         ydl_check = yt_dlp.YoutubeDL(check_url)
@@ -41,7 +46,7 @@ def ytdlpProcess(request: StreamDL):
             for entry in info['entries']:
                 ydl_opts = {
                     'format': f'bestvideo[ext={request.format}]+bestaudio/best[ext={request.format}]',
-                    'quiet': False,             
+                    'quiet': quietYtdlp,             
                     'no_warnings': True,        
                     'outtmpl': f"{request.path}/%(uploader)s - %(title)s.%(ext)s",     
                 }
@@ -59,7 +64,7 @@ def ytdlpProcess(request: StreamDL):
             try:
                 ydl_opts = {
                     'format': f'bestvideo[ext={request.format}]+bestaudio/best[ext={request.format}]',
-                    'quiet': False,             
+                    'quiet': quietYtdlp,             
                     'no_warnings': True,        
                     'outtmpl': f"{request.path}/%(uploader)s - %(title)s.%(ext)s",     
                 }

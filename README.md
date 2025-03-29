@@ -11,6 +11,14 @@
 ## Installation
   > Streaming-Downloader works with python 3.11 (tested on 3.11.8), older version were not tested and newer version are not supported.
   - Get python, the script was dev & work fine on [Python 3.11.8](https://www.python.org/downloads/release/python-3118/) (Check 'Add Python to PATH')
+  - Go to the latest release, then download StrDL_Installer.exe to properly install the app, or just StreamingDL.exe to run it without installation
+  - If you encounter errors, make sure you are using Python 3.11. Furthermore, you may need to check if your antivirus software has blocked the app. Try turning off your antivirus temporarily. If it still doesn't work, or if you have concerns about potential malware, the source code is available for your review.
+
+
+
+## Manual Installation
+  > Streaming-Downloader works with python 3.11 (tested on 3.11.8), older version were not tested and newer version are not supported.
+  - Get python, the script was dev & work fine on [Python 3.11.8](https://www.python.org/downloads/release/python-3118/) (Check 'Add Python to PATH')
   - Move the folder containing the subfolders to your desired path, it's best to do this now rather than doing this after running setup.bat
   - Open the 'Setup' folder and run 'setup.bat', the installation can be long depnds on your connection and/or your CPU
   - Restart your PC
@@ -33,7 +41,7 @@ The default path of downloaded materials are in the 'DL' folder.
 
 ## Consideration
 This project is Licensed under the [GPLv3](/LICENSE) License.
-Copyright (C) 2024 Ashinura, <dev.ashinura@protonmail.com>
+Copyright (C) 2025 Ashinura, <dev.ashinura@protonmail.com>
 
 As the author, I neither endorse nor encourage the use of this program in any manner that violates or is non-compliant with the security policies of any website or service.
 By using this script, you acknowledge that you use it at your own risk and agree to comply with all relevant laws and regulations.

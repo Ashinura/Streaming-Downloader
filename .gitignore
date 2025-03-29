@@ -1,3 +1,14 @@
-__pycache__
+# Ignorer les fichiers de configuration et les fichiers de projet
 DL/*
 .venv
+*.info
+
+# Exclure les éléments de build
+*.spec
+build/
+build-conf/
+
+# Exclure les fichiers temporaires et caches
+__pycache__/
+*.pyc
+*.pyo

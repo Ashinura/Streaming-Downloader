@@ -27,8 +27,8 @@ def siteProcess(stropt):
 
 def siteBuild():
 
-    from ytdlpProcess import ytdlpProcess, scYtdlpProcess, ytdlpDefault
-    from spotdlProcess import spotdlProcess
+    from Platforms.ytdlpProcess import ytdlpProcess, scYtdlpProcess, ytdlpDefault
+    from Platforms.spotdlProcess import spotdlProcess
 
     siteCategory = config["sites-data"][f"{siteName}"]["category"]
     siteColor = config["sites-data"][f"{siteName}"]["color"]
@@ -45,8 +45,6 @@ def siteBuild():
         request = StreamDL(url, siteName, sitePath, "mp4", siteColor, siteLib)
         if (request.lib == "ytdlp"):
             ytdlpProcess(request)
-        if (request.lib == "ytdlp-sc"):
-            scYtdlpProcess(request)
 
     if (siteCategory == "music"):
         sitePath = config["path"]["music"]

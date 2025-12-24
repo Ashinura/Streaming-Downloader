@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Streaming-Downloader</title>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='img/str_dl-logo.ico') }}" type="image/x-icon" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles/config.css') }}" />
+	<script src="{{ url_for('static', filename='scripts/config.js') }}"></script>
+</head>
+
+<body>
+	<a class="btn-back" href="{{ url_for('menu.renderMenu') }}" title="Retour">
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+			<path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+		</svg>
+	</a>
+
+	<div class="header">
+		<h1>Configuration <span class="logo-text">str_dl</span></h1>
+	</div>
+
+	<div class="container">
+		<div class="top-row">
+			<div class="config-section">
+				<h2 class="section-title">
+					<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User"
+						class="section-icon" />
+					Paramètres Utilisateur
+				</h2>
+				<div class="form-grid">
+					<div class="form-group">
+						<label class="form-label">Langue</label>
+						<select class="form-select" id="language">
+							<option value="french">Français</option>
+							<option value="english">English</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Mise à jour automatique</label>
+						<div class="checkbox-wrapper-8">
+							<input type="checkbox" id="autoupdate-chkbx" class="tgl tgl-skewed">
+							<label for="autoupdate-chkbx" data-tg-on="OUI" data-tg-off="NON" class="tgl-btn"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="config-section">
+				<h2 class="section-title">
+					<img src="https://cdn-icons-png.flaticon.com/512/269/269015.png" alt="Server"
+						class="section-icon" />
+					Serveur Flask
+					<img class="info-icon" src="https://cdn-icons-png.flaticon.com/512/9195/9195785.png" alt="Flask-Info">
+				</h2>
+				<div class="form-content">
+					<div class="access-port-group">
+						<div class="access-type-container form-group">
+							<label class="form-label">Type d'accès</label>
+							<select class="form-select" id="flask-access-type">
+								<option value="local">Localhost (127.0.0.1)</option>
+								<option value="network">Réseau Local (0.0.0.0)</option>
+							</select>
+						</div>
+
+						<div class="port-container form-group">
+							<label class="form-label">Port</label>
+							<input type="number" class="form-input" id="flask-port" value="5000" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Mode Debug</label>
+						<div class="checkbox-wrapper-8">
+							<input type="checkbox" id="debug-chkbx" class="tgl tgl-skewed">
+							<label for="debug-chkbx" data-tg-on="OUI" data-tg-off="NON" class="tgl-btn"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="config-section">
+			<h2 class="section-title">
+				<img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="Folder" class="section-icon" />
+				Chemins de Téléchargement
+			</h2>
+			<div class="paths-grid">
+				<div class="form-group">
+					<label class="form-label">Dossier par défaut</label>
+					<div class="folder-input-group">
+						<input type="text" class="form-input" id="path-default" value="/downloads"
+							placeholder="/downloads" />
+						<button class="browse-btn" onclick="browsePath('path-default')">Parcourir</button>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label">Dossier vidéos</label>
+					<div class="folder-input-group">
+						<input type="text" class="form-input" id="path-video" value="/downloads"
+							placeholder="/downloads" />
+						<button class="browse-btn" onclick="browsePath('path-video')">Parcourir</button>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label">Dossier musique</label>
+					<div class="folder-input-group">
+						<input type="text" class="form-input" id="path-music" value="/downloads"
+							placeholder="/downloads" />
+						<button class="browse-btn" onclick="browsePath('path-music')">Parcourir</button>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label">Dossier réseaux sociaux</label>
+					<div class="folder-input-group">
+						<input type="text" class="form-input" id="path-social" value="/downloads"
+							placeholder="/downloads" />
+						<button class="browse-btn" onclick="browsePath('path-social')">Parcourir</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="action-buttons">
+		<button class="btn btn-secondary" id="reset-btn">Réinitialiser</button>
+		<button class="btn btn-primary" disabled title="Sauvegarde automatique"><img
+				src="https://cdn-icons-png.flaticon.com/512/11271/11271630.png" alt="Auto-Save" /></button>
+	</div>
+</body>
+
+</html>

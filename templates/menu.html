@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Streaming-Downloader</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/str_dl-logo.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/menu.css') }}">
+        <script defer src="{{ url_for('static', filename='scripts/menu.js') }}"></script>
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="url-container">
+                <input type="url" class="url-input">
+            </div>
+        </div>
+
+        <div class="desktop-nav">
+            <a class="nav-btn" title="Paramètres" href="{{ url_for('config.renderConfig') }}">
+                <img src="https://cdn-icons-png.flaticon.com/512/13330/13330760.png" alt="Paramètres">
+            </a>
+            <button class="nav-btn" title="Chemin de destination">
+                <img src="https://cdn-icons-png.flaticon.com/512/8316/8316636.png" alt="Dossier">
+            </button>
+            <a class="nav-btn" title="Page Développeur" href="https://github.com/Ashinura" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png" alt="GitHub" style="border-radius: 100%;">
+            </a>
+        </div>
+
+        <div class="bottom-right">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/str_dl-logo.ico') }}" alt="logo">
+                </div>
+                <span class="version" id="version">Version</span>
+            </div>
+        </div>
+
+        <div class="mobile-nav">
+            <div class="mobile-menu" id="mobileMenu">
+                <div class="mobile-menu-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="Paramètres">
+                    <span>Paramètres</span>
+                </div>
+                <div class="mobile-menu-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="Dossier">
+                    <span>Chemin de destination</span>
+                </div>
+                <div class="mobile-menu-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+                    <span>Page Développeur</span>
+                </div>
+            </div>
+            <button class="burger-btn" id="burgerBtn">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </button>
+        </div>
+    </body>
+</html>

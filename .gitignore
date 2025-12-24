@@ -3,6 +3,7 @@ DL/*
 .venv
 .vscode
 *.info
+roadmap.txt
 
 # Exclure les éléments de build
 *.spec

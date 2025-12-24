@@ -1,6 +1,7 @@
 # Ignorer les fichiers de configuration et les fichiers de projet
 DL/*
 .venv
+.vscode
 *.info
 
 # Exclure les éléments de build

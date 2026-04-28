@@ -1,0 +1,8 @@
+-- INIT --
+python -m venv .venv (.strdl)
+venv activate 
+pip install -r requirements.txt
+
+-- UPDATE -- 
+venv activate 
+pip install -r requirements.txt

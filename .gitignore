@@ -1,16 +1,10 @@
-# Ignorer les fichiers de configuration et les fichiers de projet
-DL/*
-.venv
+# Env
+__pycache__
 .vscode
-*.info
-roadmap.txt
+.venv
+.strdl
 
-# Exclure les éléments de build
-*.spec
-build/
-build-conf/
-
-# Exclure les fichiers temporaires et caches
-__pycache__/
-*.pyc
-*.pyo
+# Project 
+config.json
+downloads/*
+tests/*

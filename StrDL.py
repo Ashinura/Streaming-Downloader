@@ -1,0 +1,42 @@
+import os
+import sys
+from properties import getConfig
+
+def main():
+    config = getConfig()
+    flaskSettings = config.get("flask", {})
+    userSettings = config.get("user", {})
+    
+    is_debug = flaskSettings.get("debug", False)
+
+    if userSettings.get("autoupdate", False) and not is_debug:
+        print("--- Vérification des mises à jour ---")
+        try:
+            from utils.updater import updateProject
+            if updateProject():
+                print("--- Mise à jour installée. Redémarrage... ---")
+                os.execv(sys.executable, [sys.executable] + sys.argv)
+        except Exception as error:
+            print(f"--- Erreur MAJ : {error} ---")
+    elif is_debug:
+        if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+                print("--- Mode Debug actif : Mise à jour automatique désactivée ---")
+
+    try:
+        from app import app
+        
+        host_ip = flaskSettings.get("ip", "127.0.0.1")
+        port_number = flaskSettings.get("port", 5000)
+
+        app.run(
+            host=host_ip,
+            port=port_number,
+            debug=is_debug 
+        )
+
+    except Exception as error:
+        print(f"Erreur fatale lors du lancement : {error}")
+        input("Appuyez sur Entrée pour quitter...")
+
+if __name__ == "__main__":
+    main()

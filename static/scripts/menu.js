@@ -1,9 +1,10 @@
-// const PROPERTIES_FILE;
 const burgerBtn = document.getElementById('burgerBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const version = document.getElementById('version')
 
-fetch('/api/properties/version').then(response => response.json()).then(currentVersion => version.textContent = currentVersion);
+fetch("/api/properties/version")
+	.then((response) => response.json())
+	.then((currentVersion) => (version.textContent = currentVersion));
 
 burgerBtn.addEventListener('click', () => {
     burgerBtn.classList.toggle('active');

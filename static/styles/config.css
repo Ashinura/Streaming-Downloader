@@ -13,19 +13,13 @@ body {
 }
 
 .header {
+    margin: 50px;
     text-align: center;
-    margin-bottom: 40px;
 }
 
 .header h1 {
     font-size: 2.5rem;
-    font-weight: 300;
-    margin-bottom: 10px;
-}
-
-.header .logo-text {
-    color: #ff0000;
-    font-weight: bold;
+    font-weight: 400;
 }
 
 .container {
@@ -300,20 +294,26 @@ input:checked+.slider:before {
     transition: opacity 0.3s;
 }
 
-.info-icon:hover {
-    opacity: 1;
+.info-icon {
+    height: auto; 
+    width: 16px; 
+    aspect-ratio: 1 / 1; 
+    vertical-align: middle; 
+    margin-left: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s ease-in-out;
 }
 
-.info-tooltip {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    max-width: 300px;
-    z-index: 100;
-    display: none;
+/* Effet au survol */
+.info-icon:hover {
+    opacity: 1;
+    transform: scale(1.1); /* Grossit légèrement */
+}
+
+input:disabled + .tgl-btn {
+    cursor: not-allowed !important;
+    background: #ccc !important;
 }
 
 .port-debug-group {

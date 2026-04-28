@@ -1,0 +1,3 @@
+(done) - translation
+create site desktop shortcut with python 
+By using StrDL, you accept licenses & .

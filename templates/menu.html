@@ -16,14 +16,14 @@
         </div>
 
         <div class="desktop-nav">
-            <a class="nav-btn" title="Paramètres" href="{{ url_for('config.renderConfig') }}">
-                <img src="https://cdn-icons-png.flaticon.com/512/13330/13330760.png" alt="Paramètres">
+            <a class="nav-btn" title="{{ trad('settings') }}" href="{{ url_for('config.renderConfig') }}">
+                <img src="https://cdn-icons-png.flaticon.com/512/13330/13330760.png" alt="{{ trad('settings') }}">
             </a>
-            <button class="nav-btn" title="Chemin de destination">
-                <img src="https://cdn-icons-png.flaticon.com/512/8316/8316636.png" alt="Dossier">
+            <button class="nav-btn" title="{{ trad('destination_path') }}">
+                <img src="https://cdn-icons-png.flaticon.com/512/8316/8316636.png" alt="{{ trad('destination_path') }}">
             </button>
-            <a class="nav-btn" title="Page Développeur" href="https://github.com/Ashinura" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png" alt="GitHub" style="border-radius: 100%;">
+            <a class="nav-btn" title="{{ trad('dev_page') }}" href="https://github.com/Ashinura" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png" alt="{{ trad('dev_page') }}" style="border-radius: 100%;">
             </a>
         </div>
 
@@ -32,23 +32,23 @@
                 <div class="logo">
                     <img src="{{ url_for('static', filename='img/str_dl-logo.ico') }}" alt="logo">
                 </div>
-                <span class="version" id="version">Version</span>
+                <span class="version" id="version">{{ version }}</span>
             </div>
         </div>
 
         <div class="mobile-nav">
             <div class="mobile-menu" id="mobileMenu">
                 <div class="mobile-menu-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="Paramètres">
-                    <span>Paramètres</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="{{ trad('settings') }}">
+                    <span>{{ trad('settings') }}</span>
                 </div>
                 <div class="mobile-menu-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="Dossier">
-                    <span>Chemin de destination</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="{{ trad('destination_path') }}">
+                    <span>{{ trad('destination_path') }}</span>
                 </div>
                 <div class="mobile-menu-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
-                    <span>Page Développeur</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="{{ trad('dev_page') }}">
+                    <span>{{ trad('dev_page') }}</span>
                 </div>
             </div>
             <button class="burger-btn" id="burgerBtn">

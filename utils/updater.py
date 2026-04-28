@@ -9,6 +9,10 @@ from properties import VERSION, ROOT_DIR
 GITHUB_REPO = "Ashinura/Streaming-Downloader" 
 API_URL = f"https://api.github.com/repos/{GITHUB_REPO}/releases/latest"
 
+# Test Dev
+BRANCH_NAME = "release/3.0.0"
+TEST_URL = f"https://github.com/{GITHUB_REPO}/archive/refs/heads/{BRANCH_NAME}.zip"
+
 # Liste des fichiers/dossiers locaux qui ne doivent pas être touchés par l'updater
 PROTECTED_ITEMS = {
     "temp_update", # Dossier créer pendant l'update 
@@ -20,8 +24,13 @@ PROTECTED_ITEMS = {
 }
 
 def getLatestRelease():
+    if TEST_URL:
+        return {
+            "tag_name": "v3.0.0-test",  # On simule une version plus récente
+            "zipball_url": TEST_URL      # On injecte l'URL du ZIP direct
+        }
     try:
-        response = requests.get(API_URL, timeout=10)
+        response = requests.get(TEST_URL, timeout=10)
         if response.status_code == 200:
             return response.json()
     except Exception as error:

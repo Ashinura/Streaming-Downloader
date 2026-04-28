@@ -24,13 +24,13 @@ PROTECTED_ITEMS = {
 }
 
 def getLatestRelease():
-    if TEST_URL:
+    if TEST_URL and VERSION != "v3.0.0-test": 
         return {
-            "tag_name": "v3.0.0-test",  # On simule une version plus récente
-            "zipball_url": TEST_URL      # On injecte l'URL du ZIP direct
+            "tag_name": "v3.0.0-test",
+            "zipball_url": TEST_URL
         }
     try:
-        response = requests.get(TEST_URL, timeout=10)
+        response = requests.get(TEST_URL, timeout=10) # Changer par API_URL en prod 
         if response.status_code == 200:
             return response.json()
     except Exception as error:
@@ -46,17 +46,18 @@ def updateProject():
     
     try:
         response_archive = requests.get(release_data['zipball_url'])
-        zip_file = zipfile.ZipFile(io.BytesIO(response_archive.content))
+
+        with zipfile.ZipFile(io.BytesIO(response_archive.content)) as zip_file:
+            extract_path = os.path.join(ROOT_DIR, "temp_update")
+            if os.path.exists(extract_path):
+                shutil.rmtree(extract_path)
+            zip_file.extractall(extract_path)
         
-        extract_path = os.path.join(ROOT_DIR, "temp_update")
-        if os.path.exists(extract_path):
-            shutil.rmtree(extract_path)
-        zip_file.extractall(extract_path)
-        
-        subfolder_name = os.listdir(extract_path)[0]
-        subfolder_path = os.path.join(extract_path, subfolder_name)
+        items = os.listdir(extract_path)
+        subfolder_path = next(os.path.join(extract_path, i) for i in items if os.path.isdir(os.path.join(extract_path, i)))
 
         for item_name in os.listdir(subfolder_path):
+
             if item_name in PROTECTED_ITEMS:
                 continue
             

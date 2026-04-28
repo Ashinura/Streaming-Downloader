@@ -24,6 +24,10 @@ PROTECTED_ITEMS = {
 }
 
 def getLatestRelease():
+    
+    if "test" in VERSION:
+        return None
+    
     if TEST_URL and VERSION != "v3.0.0-test": 
         return {
             "tag_name": "v3.0.0-test",

@@ -14,7 +14,7 @@ class ConfigurationError(Exception):
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) 
 
-VERSION = "v3.0.0"
+VERSION = "v3.0.0-test"
 CONFIG_FILE = os.path.join(ROOT_DIR, "config.json")
 
 DEFAULT_CONFIG = {

@@ -130,6 +130,25 @@ body {
     font-weight: 500;
     text-align: center;
 }
+.header-version {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.update-badge {
+    background: linear-gradient(90deg, #ff8c00, #ff4500);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+    animation: glow 2s infinite;
+}
+.update-link {
+    text-decoration: none;
+}
 .mobile-nav {
     display: none;
     position: fixed;
@@ -206,6 +225,11 @@ body {
 .mobile-menu-item span {
     color: #333;
     font-weight: 500;
+}
+@keyframes glow {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.8; }
 }
 @media (max-width: 768px) {
     .desktop-nav {

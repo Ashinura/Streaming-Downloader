@@ -5,6 +5,7 @@ from properties import getConfig
 remote_version = None
 
 def main():
+    global remote_version
     config = getConfig()
     flaskSettings = config.get("flask", {})
     userSettings = config.get("user", {})
@@ -13,7 +14,7 @@ def main():
     
 
     if userSettings.get("autoupdate", False) and not is_debug:
-        print("[INFO] - Vérification des mises à jour")
+        print("[UPDATE] - Vérification des mises à jour")
         try:
             from utils.updater import updateProject
             if updateProject():
@@ -27,6 +28,9 @@ def main():
     else: 
         from utils.updater import checkRemoteVersion
         remote_version = checkRemoteVersion()
+        if remote_version:
+            print("[UPDATE] - Nouvelle version détectée")
+
 
     try:
         from app import app

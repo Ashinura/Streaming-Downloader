@@ -1,9 +1,10 @@
 import flask
 from properties import VERSION
-from StrDL import remote_version
+import StrDL
 
 menu_bp = flask.Blueprint("menu", __name__)
 
 @menu_bp.route("/")
 def renderMenu():
-    return flask.render_template("menu.html", version=VERSION, update_available=remote_version)
+    print(StrDL.remote_version)
+    return flask.render_template("menu.html", version=VERSION, update_available=StrDL.remote_version)

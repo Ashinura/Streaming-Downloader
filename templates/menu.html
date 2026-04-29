@@ -28,6 +28,9 @@
         </div>
 
         <div class="bottom-right">
+            {% if update_available %}
+                <span class="update-badge">🚀 MAJ {{ update_available }} disponible</span>
+            {% endif %}
             <div class="logo-container">
                 <div class="logo">
                     <img src="{{ url_for('static', filename='img/str_dl-logo.ico') }}" alt="logo">

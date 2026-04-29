@@ -41,7 +41,7 @@ The default path of downloaded materials are in the 'DL' folder.
 
 ## Consideration
 This project is Licensed under the [GPLv3](/LICENSE) License.
-Copyright (C) 2025 Ashinura, <dev.ashinura@protonmail.com>
+Copyright (C) 2026 Ashinura, <dev.ashinura@protonmail.com>
 
 As the author, I neither endorse nor encourage the use of this program in any manner that violates or is non-compliant with the security policies of any website or service.
 By using this script, you acknowledge that you use it at your own risk and agree to comply with all relevant laws and regulations.

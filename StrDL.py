@@ -11,8 +11,13 @@ def main():
     userSettings = config.get("user", {})
     
     is_debug = flaskSettings.get("debug", False)
+
+    if is_debug:
+        if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+                print("[INFO] - Mode Debug actif : Mise à jour automatique désactivée")
+    else: 
+        print("[INFO] - Vérification des mises à jour")
     
-    print("[INFO] - Vérification des mises à jour")
     if userSettings.get("autoupdate", False) and not is_debug:
         try:
             from utils.updater import updateProject
@@ -21,15 +26,11 @@ def main():
                 os.execv(sys.executable, [sys.executable] + sys.argv)
         except Exception as error:
             print(f"[ERROR] - Erreur MAJ : {error}")
-    elif is_debug:
-        if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
-                print("[INFO] - Mode Debug actif : Mise à jour automatique désactivée")
     else: 
         from utils.updater import checkRemoteVersion
         remote_version = checkRemoteVersion()
         if remote_version:
             print(f"[UPDATE] - Nouvelle version détectée | { remote_version }")
-
 
 
     try:

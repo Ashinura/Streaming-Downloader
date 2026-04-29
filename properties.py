@@ -79,7 +79,9 @@ TRANSLATION = MappingProxyType({
         "browse": "Parcourir",
         "reset": "Réinitialiser",
         "auto_save_info": "Sauvegarde automatique", 
-        "go_back": "Retour"
+        "go_back": "Retour",
+        "actual_version": "Version Actuelle",
+        "update_available": "MaJ disponible"
     },
     "en": {
         "settings": "Settings",
@@ -104,7 +106,9 @@ TRANSLATION = MappingProxyType({
         "browse": "Browse",
         "reset": "Reset",
         "auto_save_info": "Auto-save enabled",
-        "go_back": "Back"
+        "go_back": "Back",
+        "actual_version": "Actual Version",
+        "update_available": "Update available"
     }
 })
 

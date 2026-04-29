@@ -1,5 +1,6 @@
 # routes/api.py
-
+import os 
+import sys
 from flask import Blueprint, jsonify, request
 from properties import VERSION, DEFAULT_CONFIG, getConfig, updateConfig, ConfigurationError
 
@@ -35,3 +36,17 @@ def defaultConfig_route():
 @api_bp.route("/properties/version", methods=["GET"])
 def getVersion_route():
     return jsonify(VERSION)
+
+@api_bp.route("/update-project", methods=["POST"])
+def trigger_update():
+    from utils.updater import updateProject
+    try:
+        if updateProject():
+            print("[UPDATE] - Redémarrage en cours...")
+            os.execv(sys.executable, [sys.executable] + sys.argv)
+            return jsonify({"status": "success"}), 200
+        else:
+            return jsonify({"status": "failed", "message": "Échec de l'installation"}), 500
+    except Exception as e:
+        print(f"[ERROR] - Erreur API Update : {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500

@@ -2,12 +2,15 @@ import os
 import sys
 from properties import getConfig
 
+remote_version = None
+
 def main():
     config = getConfig()
     flaskSettings = config.get("flask", {})
     userSettings = config.get("user", {})
     
     is_debug = flaskSettings.get("debug", False)
+    
 
     if userSettings.get("autoupdate", False) and not is_debug:
         print("[INFO] - Vérification des mises à jour")
@@ -21,6 +24,9 @@ def main():
     elif is_debug:
         if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
                 print("[INFO] - Mode Debug actif : Mise à jour automatique désactivée")
+    else: 
+        from utils.updater import checkRemoteVersion
+        remote_version = checkRemoteVersion()
 
     try:
         from app import app

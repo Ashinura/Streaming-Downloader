@@ -24,7 +24,6 @@ PROTECTED_ITEMS = {
 }
 
 def getLatestRelease():
-    
     if "test" in VERSION:
         return None
     
@@ -39,6 +38,18 @@ def getLatestRelease():
             return response.json()
     except Exception as error:
         print(f"[ERROR] - Erreur check MAJ : {error}")
+    return None
+
+def checkRemoteVersion():
+    """
+    Compare la version locale avec la version distante sans lancer d'update.
+    Retourne le tag_name s'il est différent de la version actuelle.
+    """
+    data = getLatestRelease()
+    if data:
+        new_version = data.get('tag_name')
+        if new_version != VERSION:
+            return new_version
     return None
 
 def updateProject():

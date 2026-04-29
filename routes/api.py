@@ -25,7 +25,7 @@ def updateConfig_route():
     except ConfigurationError as e:
         return jsonify({"status": "error", "message": str(e)}), 400
     except Exception as e:
-        print(f"Erreur interne API: {e}")
+        print(f"[ERROR] - Erreur interne API: {e}")
         return jsonify({"status": "error", "message": "Erreur interne du serveur"}), 500
 
 @api_bp.route("/config/default", methods=["GET"])
@@ -34,5 +34,4 @@ def defaultConfig_route():
 
 @api_bp.route("/properties/version", methods=["GET"])
 def getVersion_route():
-    # On renvoie directement la string ou un petit objet
     return jsonify(VERSION)

@@ -115,18 +115,25 @@ TRANSLATION = MappingProxyType({
 
 def loadConfig():
     """Charge la config du fichier JSON ou crée une config par défaut"""
-    if os.path.exists(CONFIG_FILE):
+    if not os.path.exists(CONFIG_FILE):
         try:
-            with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-                loaded = json.load(f)
-                # On merge avec DEFAULT_CONFIG pour s'assurer qu'aucune clé ne manque
-                base = deepcopy(DEFAULT_CONFIG)
-                for section, values in loaded.items():
-                    if section in base:
-                        base[section].update(values)
-                return base
+            with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+                json.dump(DEFAULT_CONFIG, f, indent=4, ensure_ascii=False)
+            print(f"[INFO] - Fichier {CONFIG_FILE} créé avec les paramètres par défaut")
         except Exception as e:
-            print(f"Erreur lecture config.json: {e}")
+            print(f"[ERROR] - Erreur lors de la création du fichier config: {e}")
+        return deepcopy(DEFAULT_CONFIG)
+    try:
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            loaded = json.load(f)
+            # On merge avec DEFAULT_CONFIG pour s'assurer qu'aucune clé ne manque
+            base = deepcopy(DEFAULT_CONFIG)
+            for section, values in loaded.items():
+                if section in base:
+                    base[section].update(values)
+            return base
+    except Exception as e:
+        print(f"[ERROR] - Erreur lecture config.json: {e}")
     return deepcopy(DEFAULT_CONFIG)
 
 def saveConfig(config_to_save):
@@ -135,7 +142,7 @@ def saveConfig(config_to_save):
         with open(CONFIG_FILE, "w", encoding="utf-8") as f:
             json.dump(config_to_save, f, indent=4, ensure_ascii=False)
     except Exception as e:
-        print(f"Erreur écriture config.json: {e}")
+        print(f"[ERROR] - Erreur écriture config.json: {e}")
 
 _lock = threading.RLock()
 _config = loadConfig()
@@ -152,14 +159,14 @@ def getConfig():
 
 def updateConfig(new_data: dict):
     if not isinstance(new_data, dict):
-        raise ConfigurationError("updateConfig attend un dictionnaire")
+        raise ConfigurationError("[ERROR] - updateConfig attend un dictionnaire")
 
     with _lock:
         for section, values in new_data.items():
             if section not in _config:
-                raise ConfigurationError(f"Section inconnue: {section}")
+                raise ConfigurationError(f"[ERROR] - Section inconnue: {section}")
             if not isinstance(values, dict):
-                raise ConfigurationError(f"La section '{section}' doit être un dictionnaire")
+                raise ConfigurationError(f"[ERROR] - La section '{section}' doit être un dictionnaire")
             
             _config[section].update(values)
         

@@ -10,17 +10,17 @@ def main():
     is_debug = flaskSettings.get("debug", False)
 
     if userSettings.get("autoupdate", False) and not is_debug:
-        print("--- Vérification des mises à jour ---")
+        print("[INFO] - Vérification des mises à jour")
         try:
             from utils.updater import updateProject
             if updateProject():
-                print("--- Mise à jour installée. Redémarrage... ---")
+                print("[INFO] - Mise à jour installée. Redémarrage...")
                 os.execv(sys.executable, [sys.executable] + sys.argv)
         except Exception as error:
-            print(f"--- Erreur MAJ : {error} ---")
+            print(f"[ERROR] - Erreur MAJ : {error}")
     elif is_debug:
         if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
-                print("--- Mode Debug actif : Mise à jour automatique désactivée ---")
+                print("[INFO] - Mode Debug actif : Mise à jour automatique désactivée")
 
     try:
         from app import app
@@ -35,7 +35,7 @@ def main():
         )
 
     except Exception as error:
-        print(f"Erreur fatale lors du lancement : {error}")
+        print(f"[ERROR] - Erreur fatale lors du lancement : {error}")
         input("Appuyez sur Entrée pour quitter...")
 
 if __name__ == "__main__":

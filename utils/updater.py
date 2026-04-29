@@ -38,7 +38,7 @@ def getLatestRelease():
         if response.status_code == 200:
             return response.json()
     except Exception as error:
-        print(f"Erreur check MAJ : {error}")
+        print(f"[ERROR] - Erreur check MAJ : {error}")
     return None
 
 def updateProject():
@@ -46,7 +46,7 @@ def updateProject():
     if not release_data or release_data.get('tag_name') == VERSION:
         return False
 
-    print(f"Installation de la version {release_data['tag_name']}...")
+    print(f"[INFO] - Installation de la version {release_data['tag_name']}...")
     
     try:
         response_archive = requests.get(release_data['zipball_url'])
@@ -80,5 +80,5 @@ def updateProject():
         return True
 
     except Exception as error:
-        print(f"Erreur pendant l'update : {error}")
+        print(f"[ERROR] - Erreur pendant l'update : {error}")
         return False

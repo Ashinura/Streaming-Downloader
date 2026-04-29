@@ -20,4 +20,7 @@ def utility_processor():
 
         return texts.get(key, key)
     
-    return dict(trad=get_text)
+    return dict(
+        trad=get_text,
+        update_available=app.config.get('REMOTE_VERSION')
+    )

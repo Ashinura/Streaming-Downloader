@@ -12,9 +12,8 @@ def main():
     
     is_debug = flaskSettings.get("debug", False)
     
-
+    print("[INFO] - Vérification des mises à jour")
     if userSettings.get("autoupdate", False) and not is_debug:
-        print("[UPDATE] - Vérification des mises à jour")
         try:
             from utils.updater import updateProject
             if updateProject():
@@ -29,11 +28,14 @@ def main():
         from utils.updater import checkRemoteVersion
         remote_version = checkRemoteVersion()
         if remote_version:
-            print("[UPDATE] - Nouvelle version détectée")
+            print(f"[UPDATE] - Nouvelle version détectée | { remote_version }")
+
 
 
     try:
         from app import app
+
+        app.config['REMOTE_VERSION'] = remote_version
         
         host_ip = flaskSettings.get("ip", "127.0.0.1")
         port_number = flaskSettings.get("port", 5000)

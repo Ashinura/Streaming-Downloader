@@ -135,19 +135,19 @@ body {
     align-items: center;
     gap: 15px;
 }
-.update-badge {
-    background: linear-gradient(90deg, #ff8c00, #ff4500);
-    color: white;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
-    animation: glow 2s infinite;
+.update-trigger {
+    cursor: pointer;
+    color: #2ecc71; /* Vert émeraude */
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
 }
-.update-link {
-    text-decoration: none;
+.update-trigger:hover {
+    transform: scale(1.2);
+    color: #27ae60;
+}
+.icon-update {
+    animation: pulse-green 2s infinite;
 }
 .mobile-nav {
     display: none;
@@ -226,10 +226,10 @@ body {
     color: #333;
     font-weight: 500;
 }
-@keyframes glow {
-    0% { opacity: 0.8; }
-    50% { opacity: 1; transform: scale(1.02); }
-    100% { opacity: 0.8; }
+@keyframes pulse-green {
+    0% { filter: drop-shadow(0 0 0px rgba(46, 204, 113, 0.7)); }
+    70% { filter: drop-shadow(0 0 8px rgba(46, 204, 113, 0.4)); }
+    100% { filter: drop-shadow(0 0 0px rgba(46, 204, 113, 0.7)); }
 }
 @media (max-width: 768px) {
     .desktop-nav {

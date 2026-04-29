@@ -29,7 +29,12 @@
 
         <div class="bottom-right">
             {% if update_available %}
-                <span class="update-badge">🚀 MAJ {{ update_available }} disponible</span>
+                <div class="update-trigger" onclick="confirmUpdate('{{ update_available }}')" title="Mise à jour {{ update_available }} disponible">
+                    <svg viewBox="0 0 24 24" width="20" height="20" class="icon-update">
+                        <path d="M21 11a1 1 0 0 1-1 1H4a1 1 0 0 1 0-2h17a1 1 0 0 1 1 1zM4 7a1 1 0 0 1 0-2h17a1 1 0 0 1 0 2H4zm0 10a1 1 0 0 1 0-2h11a1 1 0 0 1 0 2H4z" fill="currentColor"/>
+                        <path d="M12 18l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             {% endif %}
             <div class="logo-container">
                 <div class="logo">

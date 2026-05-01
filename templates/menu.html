@@ -29,7 +29,7 @@
 
         <div class="bottom-right">
             {% if update_available %}
-                <div class="logo-container update-trigger" onclick="confirmUpdate('{{ update_available }}')" 
+                <div class="logo-container update-trigger" onclick="startUpdate('{{ update_available }}')" 
                     title="{{trad("actual_version")}} : {{ version }}&#10;{{trad("update_available")}} : {{ update_available }}"
                     >
                     <div class="logo icon-update">

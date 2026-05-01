@@ -26,31 +26,27 @@ document.querySelectorAll(".mobile-menu-item, .nav-btn").forEach((item) => {
 });
 
 function startUpdate(newVersion) {
-	if (
-		confirm(
-			`Installer la version ${newVersion} et redémarrer l'application ?`,
-		)
-	) {
-		const icon = document.querySelector(".icon-update");
-		if (icon) icon.style.animation = "spin 1s linear infinite";
+    if (!confirm(`Installer la version ${newVersion} et redémarrer l'application ?`)) return;
 
-		fetch("/api/update-project", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((response) => {
-				alert(
-					"Mise à jour lancée. L'application va redémarrer dans quelques secondes.",
-				);
-				setTimeout(() => {
-					window.location.reload();
-				}, 5000);
-			})
-			.catch((err) => {
-				console.log("Le serveur redémarre...");
-				setTimeout(() => {
-					window.location.reload();
-				}, 5000);
-			});
-	}
+    const icon = document.querySelector(".icon-update");
+    if (icon) icon.style.animation = "spin 1s linear infinite";
+
+    fetch("/api/update-project", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+    })
+    .then(async (response) => {
+        if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            alert("Erreur : " + (data.message || "Échec de la mise à jour"));
+            if (icon) icon.style.animation = "";
+            return;
+        }
+        alert("Mise à jour lancée. L'application va redémarrer dans quelques secondes.");
+        setTimeout(() => window.location.reload(), 5000);
+    })
+    .catch((err) => {
+        console.log("Le serveur redémarre...");
+        setTimeout(() => window.location.reload(), 5000);
+    });
 }

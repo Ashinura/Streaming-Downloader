@@ -14,8 +14,9 @@ def main():
 
     if is_debug:
         if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
-                print("[INFO] - Mode Debug actif : Mise à jour automatique désactivée")
-    else: 
+                print("[DEBUG] - Mise à jour automatique désactivée")
+    else:
+        print("[DEBUG] - OFF")
         print("[INFO] - Vérification des mises à jour")
     
     if userSettings.get("autoupdate", False) and not is_debug:
@@ -37,6 +38,9 @@ def main():
         from app import app
 
         app.config['REMOTE_VERSION'] = remote_version
+        
+        if is_debug:
+            print(f"[DEBUG] - app.config REMOTE_VERSION = {app.config.get('REMOTE_VERSION')}")
         
         host_ip = flaskSettings.get("ip", "127.0.0.1")
         port_number = flaskSettings.get("port", 5000)

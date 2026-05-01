@@ -14,7 +14,7 @@ class ConfigurationError(Exception):
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) 
 
-VERSION = "v3.0.0-test"
+VERSION = "v3.0.0"
 CONFIG_FILE = os.path.join(ROOT_DIR, "config.json")
 
 DEFAULT_CONFIG = {
@@ -130,7 +130,6 @@ def loadConfig():
     try:
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
             loaded = json.load(f)
-            # On merge avec DEFAULT_CONFIG pour s'assurer qu'aucune clé ne manque
             base = deepcopy(DEFAULT_CONFIG)
             for section, values in loaded.items():
                 if section in base:

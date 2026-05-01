@@ -20,14 +20,14 @@ def main():
     
     if userSettings.get("autoupdate", False) and not is_debug:
         try:
-            from utils.updater import updateProject
+            from utils.update.updater import updateProject
             if updateProject():
                 print("[INFO] - Mise à jour installée. Redémarrage...")
                 os.execv(sys.executable, [sys.executable] + sys.argv)
         except Exception as error:
             print(f"[ERROR] - Erreur MAJ : {error}")
     else: 
-        from utils.updater import checkRemoteVersion
+        from utils.update.updater import checkRemoteVersion
         remote_version = checkRemoteVersion()
         if remote_version:
             print(f"[UPDATE] - Nouvelle version détectée | { remote_version }")

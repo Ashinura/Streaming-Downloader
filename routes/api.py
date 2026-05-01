@@ -5,7 +5,7 @@ import threading
 import subprocess
 from time import sleep
 from flask import Blueprint, jsonify, request
-from properties import VERSION, DEFAULT_CONFIG, getConfig, updateConfig, ConfigurationError
+from properties import ROOT_DIR, VERSION, DEFAULT_CONFIG, getConfig, updateConfig, ConfigurationError
 
 api_bp = Blueprint("api", __name__)
 
@@ -42,24 +42,19 @@ def getVersion_route():
 
 @api_bp.route("/update-project", methods=["POST"])
 def trigger_update():
-    from utils.updater import updateProject
+    from utils.update.updater import updateProject
     try:
         if not updateProject():
             return jsonify({"status": "failed", "message": "Échec de l'installation"}), 500
 
         def restart():
             sleep(2)
-            # Nouveau processus indépendant
+            restart_script = os.path.join(ROOT_DIR, "utils", "restart.vbs")
             subprocess.Popen(
-                [sys.executable] + sys.argv,
-                creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
-                close_fds=True,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                stdin=subprocess.DEVNULL,
-                cwd=os.getcwd()
+                ["wscript", restart_script],
+                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS
             )
-            os._exit(0)
+            os._exit(0) # Tuer le processus actuel
 
         threading.Thread(target=restart, daemon=True).start()
         return jsonify({"status": "success"}), 200

@@ -2,6 +2,7 @@
 import os 
 import sys
 import threading
+import subprocess
 from time import sleep
 from flask import Blueprint, jsonify, request
 from properties import VERSION, DEFAULT_CONFIG, getConfig, updateConfig, ConfigurationError
@@ -43,20 +44,26 @@ def getVersion_route():
 def trigger_update():
     from utils.updater import updateProject
     try:
-        if updateProject():
-            print("[UPDATE] - Redémarrage en cours...")
-            def restart():
-                sleep(1)
-                try:
-                    os.spawnv(os.P_NOWAIT, sys.executable, [sys.executable] + sys.argv)
-                except Exception as e:
-                    print(f"[ERROR] - Échec du spawn: {e}")
-                os._exit(0)
-
-            threading.Thread(target=restart, daemon=True).start()
-            return jsonify({"status": "success"}), 200
-        else:
+        if not updateProject():
             return jsonify({"status": "failed", "message": "Échec de l'installation"}), 500
+
+        def restart():
+            sleep(2)
+            # Nouveau processus indépendant
+            subprocess.Popen(
+                [sys.executable] + sys.argv,
+                creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
+                close_fds=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                stdin=subprocess.DEVNULL,
+                cwd=os.getcwd()
+            )
+            os._exit(0)
+
+        threading.Thread(target=restart, daemon=True).start()
+        return jsonify({"status": "success"}), 200
+
     except Exception as e:
         print(f"[ERROR] - Erreur API Update : {e}")
         return jsonify({"status": "error", "message": str(e)}), 500

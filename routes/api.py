@@ -49,7 +49,7 @@ def trigger_update():
 
         def restart():
             sleep(2)
-            restart_script = os.path.join(ROOT_DIR, "utils", "restart.vbs")
+            restart_script = os.path.join(ROOT_DIR, "utils", "update", "restart.vbs")
             subprocess.Popen(
                 ["wscript", restart_script],
                 creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS

@@ -17,8 +17,7 @@ TEST_URL = f"https://github.com/{GITHUB_REPO}/archive/refs/heads/{BRANCH_NAME}.z
 PROTECTED_ITEMS = {
     "temp_update", # Dossier créer pendant l'update 
     "config.json", 
-    ".venv", # Default Env
-    ".strdl", # Env
+    ".venv",
     ".git", 
     "StrDL.py" # Evite de se remplacer soi-même pendant le run
 }

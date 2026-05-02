@@ -43,7 +43,7 @@ function startUpdate(newVersion) {
             return;
         }
         alert("Mise à jour lancée. L'application va redémarrer dans quelques secondes.");
-        setTimeout(waitForServer, 5000);
+        setTimeout(waitForServer, 3000);
     })
     .catch((err) => {
         console.log("Le serveur redémarre...");

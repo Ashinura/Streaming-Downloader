@@ -12,14 +12,15 @@ class ConfigurationError(Exception):
 # Properties
 # =========================
 
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) 
+CORE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(CORE_DIR)
 
 VERSION = "v3.0.0-test"
-CONFIG_FILE = os.path.join(ROOT_DIR, "config.json")
+CONFIG_FILE = os.path.join(CORE_DIR, "config.json")
 
 DEFAULT_CONFIG = {
     "user": {
-        "autoupdate": True,
+        "autoupdate": False,
         "language": "fr"
     },
     "flask": {

@@ -3,7 +3,7 @@ import requests
 import zipfile
 import io
 import shutil
-from properties import VERSION, ROOT_DIR
+from core.properties import VERSION, ROOT_DIR
 
 
 GITHUB_REPO = "Ashinura/Streaming-Downloader" 

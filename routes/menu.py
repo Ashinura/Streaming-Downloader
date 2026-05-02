@@ -1,5 +1,5 @@
 import flask
-from properties import VERSION
+from core.properties import VERSION
 
 menu_bp = flask.Blueprint("menu", __name__)
 

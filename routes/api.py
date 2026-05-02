@@ -5,7 +5,7 @@ import threading
 import subprocess
 from time import sleep
 from flask import Blueprint, jsonify, request
-from properties import ROOT_DIR, VERSION, DEFAULT_CONFIG, getConfig, updateConfig, ConfigurationError
+from core.properties import ROOT_DIR, VERSION, DEFAULT_CONFIG, getConfig, updateConfig, ConfigurationError
 
 api_bp = Blueprint("api", __name__)
 

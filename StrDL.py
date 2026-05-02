@@ -1,6 +1,6 @@
 import os
 import sys
-from properties import getConfig
+from core.properties import getConfig
 
 remote_version = None
 
@@ -35,7 +35,7 @@ def main():
 
 
     try:
-        from app import app
+        from core.app import app
 
         app.config['REMOTE_VERSION'] = remote_version
         

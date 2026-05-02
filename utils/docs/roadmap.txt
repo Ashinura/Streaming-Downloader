@@ -1,3 +1,4 @@
 Full translation
 create site desktop shortcut
 By using StrDL, you accept licenses & terms.
+Silent mode (.bat in backgroung)

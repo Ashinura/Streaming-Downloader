@@ -16,7 +16,6 @@ def main():
         if environ.get('WERKZEUG_RUN_MAIN') != 'true':
                 print("[DEBUG] - Mise à jour automatique désactivée")
     else:
-        print("[DEBUG] - OFF")
         print("[INFO] - Vérification des mises à jour")
     
     if userSettings.get("autoupdate", False) and not is_debug:

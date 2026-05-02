@@ -8,4 +8,4 @@ projectRoot = fso.GetParentFolderName(utilsDir)
 launcherBat = projectRoot & "\launcher.bat"
 
 Set shell = CreateObject("WScript.Shell")
-shell.Run """" & launcherBat & """", 0, False
+shell.Run """" & launcherBat & """", 1, False

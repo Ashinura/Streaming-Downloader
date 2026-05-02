@@ -1,9 +1,11 @@
-from os import path, listdir
+from os import path, listdir, walk, remove
 from requests import get
 from zipfile import ZipFile
 from io import BytesIO
 from shutil import rmtree, copytree, copy2
 from filecmp import cmp
+from subprocess import run
+from sys import executable
 from core.properties import VERSION, ROOT_DIR
 
 
@@ -20,8 +22,8 @@ PROTECTED_ITEMS = {
     "core/config.json",     # Config utilisateur 
     ".venv",                # Env
     ".git",                 # Dossier git local
+    ".gitattributes",       # LF Lines Ending 
     "StrDL.py",             # Évite de se remplacer soi-même pendant le run
-    "__pycache__",          # Cache Python généré localement
 }
 
 def getLatestRelease():
@@ -58,7 +60,7 @@ def updateProject():
     if not release_data or release_data.get('tag_name') == VERSION:
         return False
 
-    print(f"[INFO] - Installation de la version {release_data['tag_name']}...")
+    print(f"[UPDATE] - Installation de la version {release_data['tag_name']}...")
 
     try:
         response_archive = get(release_data['zipball_url'])
@@ -100,9 +102,62 @@ def updateProject():
                     print(f"[UPDATE] - Fichier copié : {item_name}")
 
         rmtree(extract_path)
-        print(f"[INFO] - Mise à jour terminée")
+        installRequirements()
+        cleanPycache(ROOT_DIR)
+        print(f"[UPDATE] - Mise à jour terminée")
         return True
 
     except Exception as error:
         print(f"[ERROR] - Erreur pendant l'update : {error}")
         return False
+    
+
+def installRequirements():
+    """Mets à jour les dépendances depuis utils/requirements.txt"""
+    requirements_path = path.join(ROOT_DIR, "utils", "requirements.txt")
+    if path.exists(requirements_path):
+        print("[UPDATE] - Mise à jour des dépendances...")
+        try:
+            result = run(
+                [executable, "-m", "pip", "install", "-r", requirements_path],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            if result.stdout:
+                print(result.stdout.strip())
+            if result.returncode == 0:
+                print("[INFO] - Dépendances à jour")
+            else:
+                print(f"[WARN] - pip install a retourné : {result.returncode}")
+                if result.stderr:
+                    print(result.stderr)
+        except Exception as e:
+            print(f"[ERROR] - Erreur pip install : {e}")
+
+def cleanPycache(root_dir):
+    """Supprime tous les __pycache__ et fichiers .pyc"""
+    for dirpath, dirnames, filenames in walk(root_dir):
+        if ".venv" in dirnames:
+            dirnames.remove(".venv")
+        if "__pycache__" in dirnames:
+            cache_path = path.join(dirpath, "__pycache__")
+            try:
+                rmtree(cache_path)
+                print(f"[UPDATE] - Cache supprimé : {path.relpath(cache_path, root_dir)}")
+            except Exception as e:
+                print(f"[WARN] - {e}")
+    # Supprime les .pyc orphelins
+    for dirpath, dirnames, filenames in walk(root_dir):
+        if ".venv" in dirpath:
+            continue
+        for f in filenames:
+            if f.endswith(".pyc"):
+                pyc_path = path.join(dirpath, f)
+                py_path = pyc_path[:-1]
+                if not path.exists(py_path):
+                    try:
+                        remove(pyc_path)
+                        print(f"[UPDATE] - .pyc orphelin supprimé : {path.relpath(pyc_path, root_dir)}")
+                    except Exception as e:
+                        print(f"[WARN] - {e}")

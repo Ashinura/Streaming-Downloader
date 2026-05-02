@@ -43,10 +43,16 @@ function startUpdate(newVersion) {
             return;
         }
         alert("Mise à jour lancée. L'application va redémarrer dans quelques secondes.");
-        setTimeout(() => window.location.reload(), 5000);
+        setTimeout(waitForServer, 5000);
     })
     .catch((err) => {
         console.log("Le serveur redémarre...");
-        setTimeout(() => window.location.reload(), 5000);
+        setTimeout(waitForServer, 5000);
     });
+}
+
+function waitForServer() {
+    fetch("http://127.0.0.1:5000/")
+        .then(() => window.location.reload())
+        .catch(() => setTimeout(waitForServer, 2000));
 }

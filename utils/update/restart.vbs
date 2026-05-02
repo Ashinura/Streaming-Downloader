@@ -1,7 +1,9 @@
 WScript.Sleep 3000
 
 Set fso = CreateObject("Scripting.FileSystemObject")
-projectRoot = fso.GetParentFolderName(fso.GetParentFolderName(WScript.ScriptFullName))
+updateDir = fso.GetParentFolderName(WScript.ScriptFullName)
+utilsDir = fso.GetParentFolderName(updateDir)
+projectRoot = fso.GetParentFolderName(utilsDir)
 
 launcherBat = projectRoot & "\launcher.bat"
 

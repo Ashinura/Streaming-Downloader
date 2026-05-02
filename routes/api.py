@@ -1,8 +1,7 @@
 # routes/api.py
-import os 
-import sys
-import threading
-import subprocess
+from os import path, _exit
+from threading import Thread
+from subprocess import Popen, CREATE_NEW_PROCESS_GROUP, DETACHED_PROCESS
 from time import sleep
 from flask import Blueprint, jsonify, request
 from core.properties import ROOT_DIR, VERSION, DEFAULT_CONFIG, getConfig, updateConfig, ConfigurationError
@@ -49,14 +48,14 @@ def trigger_update():
 
         def restart():
             sleep(2)
-            restart_script = os.path.join(ROOT_DIR, "utils", "update", "restart.vbs")
-            subprocess.Popen(
+            restart_script = path.join(ROOT_DIR, "utils", "update", "restart.vbs")
+            Popen(
                 ["wscript", restart_script],
-                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS
+                creationflags=CREATE_NEW_PROCESS_GROUP | DETACHED_PROCESS
             )
-            os._exit(0) # Tuer le processus actuel
+            _exit(0) # Tuer le processus actuel
 
-        threading.Thread(target=restart, daemon=True).start()
+        Thread(target=restart, daemon=True).start()
         return jsonify({"status": "success"}), 200
 
     except Exception as e:

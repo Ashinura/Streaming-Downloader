@@ -1,5 +1,5 @@
-import os
-import sys
+from os import environ, execv
+from sys import executable, argv
 from core.properties import getConfig
 
 remote_version = None
@@ -13,7 +13,7 @@ def main():
     is_debug = flaskSettings.get("debug", False)
 
     if is_debug:
-        if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+        if environ.get('WERKZEUG_RUN_MAIN') != 'true':
                 print("[DEBUG] - Mise à jour automatique désactivée")
     else:
         print("[DEBUG] - OFF")
@@ -24,7 +24,7 @@ def main():
             from utils.update.updater import updateProject
             if updateProject():
                 print("[INFO] - Mise à jour installée. Redémarrage...")
-                os.execv(sys.executable, [sys.executable] + sys.argv)
+                execv(executable, [executable] + argv)
         except Exception as error:
             print(f"[ERROR] - Erreur MAJ : {error}")
     else: 
@@ -48,7 +48,8 @@ def main():
         app.run(
             host=host_ip,
             port=port_number,
-            debug=is_debug 
+            debug=is_debug,
+            use_reloader=False # TODO Reloader choice in config.json
         )
 
     except Exception as error:

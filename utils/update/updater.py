@@ -1,9 +1,9 @@
-import os
-import requests
-import zipfile
-import io
-import shutil
-import filecmp
+from os import path, listdir
+from requests import get
+from zipfile import ZipFile
+from io import BytesIO
+from shutil import rmtree, copytree, copy2
+from filecmp import cmp
 from core.properties import VERSION, ROOT_DIR
 
 
@@ -34,7 +34,7 @@ def getLatestRelease():
             "zipball_url": TEST_URL
         }
     try:
-        response = requests.get(TEST_URL, timeout=10)  # Changer par API_URL en prod
+        response = get(TEST_URL, timeout=10)  # Changer par API_URL en prod
         if response.status_code == 200:
             return response.json()
     except Exception as error:
@@ -61,46 +61,45 @@ def updateProject():
     print(f"[INFO] - Installation de la version {release_data['tag_name']}...")
 
     try:
-        response_archive = requests.get(release_data['zipball_url'])
+        response_archive = get(release_data['zipball_url'])
 
-        with zipfile.ZipFile(io.BytesIO(response_archive.content)) as zip_file:
-            extract_path = os.path.join(ROOT_DIR, "temp_update")
-            if os.path.exists(extract_path):
-                shutil.rmtree(extract_path)
+        with ZipFile(BytesIO(response_archive.content)) as zip_file:
+            extract_path = path.join(ROOT_DIR, "temp_update")
+            if path.exists(extract_path):
+                rmtree(extract_path)
             zip_file.extractall(extract_path)
 
-        items = os.listdir(extract_path)
+        items = listdir(extract_path)
         subfolder_path = next(
-            os.path.join(extract_path, i)
+            path.join(extract_path, i)
             for i in items
-            if os.path.isdir(os.path.join(extract_path, i))
+            if path.isdir(path.join(extract_path, i))
         )
 
-        for item_name in os.listdir(subfolder_path):
-            source_item = os.path.join(subfolder_path, item_name)
-            destination_item = os.path.join(ROOT_DIR, item_name)
+        for item_name in listdir(subfolder_path):
+            source_item = path.join(subfolder_path, item_name)
+            destination_item = path.join(ROOT_DIR, item_name)
 
-            # Vérifie si c'est un chemin protégé (fichier ou dossier)
-            relative_path = os.path.relpath(destination_item, ROOT_DIR).replace("\\", "/")
+            relative_path = path.relpath(destination_item, ROOT_DIR).replace("\\", "/")
             if relative_path in PROTECTED_ITEMS or item_name in PROTECTED_ITEMS:
                 print(f"[UPDATE] - Protégé : {relative_path}")
                 continue
 
-            if os.path.isdir(source_item):
-                if os.path.exists(destination_item):
-                    shutil.rmtree(destination_item)
-                shutil.copytree(source_item, destination_item)
+            if path.isdir(source_item):
+                if path.exists(destination_item):
+                    rmtree(destination_item)
+                copytree(source_item, destination_item)
                 print(f"[UPDATE] - Dossier copié : {item_name}")
 
             else:
                 # Ne copie que si le fichier est différent ou inexistant
-                if os.path.exists(destination_item) and filecmp.cmp(source_item, destination_item, shallow=False):
+                if path.exists(destination_item) and cmp(source_item, destination_item, shallow=False):
                     print(f"[UPDATE] - Identique : {item_name}")
                 else:
-                    shutil.copy2(source_item, destination_item)
+                    copy2(source_item, destination_item)
                     print(f"[UPDATE] - Fichier copié : {item_name}")
 
-        shutil.rmtree(extract_path)
+        rmtree(extract_path)
         print(f"[INFO] - Mise à jour terminée")
         return True
 

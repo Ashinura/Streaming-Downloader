@@ -1,6 +1,6 @@
-import os
-import json
-import threading
+from os import path
+from json import dump, load
+from threading import RLock
 from copy import deepcopy
 from types import MappingProxyType
 
@@ -10,13 +10,13 @@ class ConfigurationError(Exception):
 
 # =========================
 # Properties
-# =========================
+# ========================= 
 
-CORE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(CORE_DIR)
+CORE_DIR = path.dirname(path.abspath(__file__))
+ROOT_DIR = path.dirname(CORE_DIR)
 
 VERSION = "v3.0.0-test"
-CONFIG_FILE = os.path.join(CORE_DIR, "config.json")
+CONFIG_FILE = path.join(CORE_DIR, "config.json")
 
 DEFAULT_CONFIG = {
     "user": {
@@ -40,6 +40,7 @@ REGISTRED_SITES = (
     "youtube",
     "dailymotion",
     "soundcloud",
+    "spotify",
     "facebook",
     "tiktok",
     "twitter",
@@ -120,17 +121,17 @@ TRANSLATION = MappingProxyType({
 
 def loadConfig():
     """Charge la config du fichier JSON ou crée une config par défaut"""
-    if not os.path.exists(CONFIG_FILE):
+    if not path.exists(CONFIG_FILE):
         try:
             with open(CONFIG_FILE, "w", encoding="utf-8") as f:
-                json.dump(DEFAULT_CONFIG, f, indent=4, ensure_ascii=False)
+                dump(DEFAULT_CONFIG, f, indent=4, ensure_ascii=False)
             print(f"[INFO] - Fichier {CONFIG_FILE} créé avec les paramètres par défaut")
         except Exception as e:
             print(f"[ERROR] - Erreur lors de la création du fichier config: {e}")
         return deepcopy(DEFAULT_CONFIG)
     try:
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-            loaded = json.load(f)
+            loaded = load(f)
             base = deepcopy(DEFAULT_CONFIG)
             for section, values in loaded.items():
                 if section in base:
@@ -144,11 +145,11 @@ def saveConfig(config_to_save):
     """Enregistre la config sur le disque"""
     try:
         with open(CONFIG_FILE, "w", encoding="utf-8") as f:
-            json.dump(config_to_save, f, indent=4, ensure_ascii=False)
+            dump(config_to_save, f, indent=4, ensure_ascii=False)
     except Exception as e:
         print(f"[ERROR] - Erreur écriture config.json: {e}")
 
-_lock = threading.RLock()
+_lock = RLock()
 _config = loadConfig()
 
 
@@ -178,6 +179,7 @@ def updateConfig(new_data: dict):
 
 
 def resetConfig():
+    global _config
     with _lock:
         _config = deepcopy(DEFAULT_CONFIG)
         saveConfig(_config)

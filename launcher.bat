@@ -4,7 +4,7 @@
 chcp 65001 >nul
 
 :: Racine du .bat (projet)
-cd /d "%~dp0"
+pushd "%~dp0" 2>nul 
 
 :: Vérification .venv
 if not exist ".venv\Scripts\activate.bat" (

@@ -18,12 +18,13 @@ TEST_URL = f"https://github.com/{GITHUB_REPO}/archive/refs/heads/{BRANCH_NAME}.z
 
 # Liste des fichiers/dossiers locaux qui ne doivent pas être touchés par l'updater
 PROTECTED_ITEMS = {
-    "temp_update",          # Dossier créé pendant l'update
-    "core/config.json",     # Config utilisateur 
-    ".venv",                # Env
-    ".git",                 # Dossier git local
-    ".gitattributes",       # LF Lines Ending 
-    "StrDL.py",             # Évite de se remplacer soi-même pendant le run
+    "temp_update",                  # Dossier créé pendant l'update
+    "core/config.json",             # Config utilisateur 
+    ".venv",                        # Env
+    ".git",                         # Dossier git local
+    ".gitattributes",               # LF Lines Ending 
+    "static/img/str_dl-logo.ico",   # Logo 
+    "StrDL.py",                     # Évite de se remplacer soi-même pendant le run
 }
 
 def getLatestRelease():

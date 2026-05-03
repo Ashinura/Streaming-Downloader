@@ -56,6 +56,46 @@ def checkRemoteVersion():
             return new_version
     return None
 
+def isProtected(relative_path):
+    """Vérifie si un chemin relatif est protégé (fichier ou dossier parent protégé)"""
+    if relative_path in PROTECTED_ITEMS:
+        return True
+    # Vérifie si un parent est protégé (ex: core/ protège core/config.json)
+    parts = relative_path.split("/")
+    for i in range(1, len(parts)):
+        parent = "/".join(parts[:i])
+        if parent in PROTECTED_ITEMS:
+            return True
+    return False
+
+def recursiveCopy(source_dir, dest_dir, current_rel=""):
+    """Copie récursive avec protection des fichiers spécifiques"""
+    for item in listdir(source_dir):
+        source_item = path.join(source_dir, item)
+        dest_item = path.join(dest_dir, item)
+        
+        if current_rel:
+            rel_path = f"{current_rel}/{item}"
+        else:
+            rel_path = item
+        
+        if isProtected(rel_path):
+            print(f"[UPDATE] - Protégé : {rel_path}")
+            continue
+        
+        if path.isdir(source_item):
+            if not path.exists(dest_item):
+                copytree(source_item, dest_item)
+                print(f"[UPDATE] - Dossier créé : {rel_path}")
+            else:
+                recursiveCopy(source_item, dest_item, rel_path)
+        else:
+            if path.exists(dest_item) and cmp(source_item, dest_item, shallow=False):
+                print(f"[UPDATE] - Identique : {rel_path}")
+            else:
+                copy2(source_item, dest_item)
+                print(f"[UPDATE] - Fichier copié : {rel_path}")
+
 def updateProject():
     release_data = getLatestRelease()
     if not release_data or release_data.get('tag_name') == VERSION:
@@ -79,29 +119,7 @@ def updateProject():
             if path.isdir(path.join(extract_path, i))
         )
 
-        for item_name in listdir(subfolder_path):
-            source_item = path.join(subfolder_path, item_name)
-            destination_item = path.join(ROOT_DIR, item_name)
-
-            relative_path = path.relpath(destination_item, ROOT_DIR).replace("\\", "/")
-            if relative_path in PROTECTED_ITEMS or item_name in PROTECTED_ITEMS:
-                print(f"[UPDATE] - Protégé : {relative_path}")
-                continue
-
-            if path.isdir(source_item):
-                if path.exists(destination_item):
-                    rmtree(destination_item)
-                copytree(source_item, destination_item)
-                print(f"[UPDATE] - Dossier copié : {item_name}")
-
-            else:
-                # Ne copie que si le fichier est différent ou inexistant
-                if path.exists(destination_item) and cmp(source_item, destination_item, shallow=False):
-                    print(f"[UPDATE] - Identique : {item_name}")
-                else:
-                    copy2(source_item, destination_item)
-                    print(f"[UPDATE] - Fichier copié : {item_name}")
-
+        recursiveCopy(subfolder_path, ROOT_DIR)
         rmtree(extract_path)
         installRequirements()
         cleanPycache(ROOT_DIR)

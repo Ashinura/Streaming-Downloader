@@ -5,5 +5,5 @@ __pycache__
 
 # Project 
 config.json
-downloads/*
-tests/*
+/downloads/*
+/tests
